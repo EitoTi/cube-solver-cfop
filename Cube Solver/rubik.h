@@ -5,12 +5,14 @@
 class Rubik : public Face
 {
 private:
+	/////// Faces of cube ///////
 	Face upFace;
 	Face downFace;
 	Face leftFace;
 	Face rightFace;
 	Face frontFace;
 	Face backFace;
+	///////////////////////////
 protected:
 	void clockWise(Face&);
 	void counterClockWise(Face&);
