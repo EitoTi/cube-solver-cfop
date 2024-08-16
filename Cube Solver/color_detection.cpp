@@ -1,10 +1,20 @@
 #include "color_detection.h"
 
-ColorDetection::ColorDetection() : cap(0), previewFrame(750, 640, CV_8UC3, cv::Scalar(255, 255, 255)) {}
+ColorDetection::ColorDetection() : cap(0), previewFrame(800, 640, CV_8UC3, cv::Scalar(255, 255, 255)) {}
+
+std::map<std::string, std::vector<cv::Scalar>>& ColorDetection::getState()
+{
+    return state;
+}
 
 Rubik& ColorDetection::getCube()
 {
     return rubikCube;
+}
+
+const cv::Mat& ColorDetection::getPreviewFrame()
+{
+    return previewFrame;
 }
 
 std::string ColorDetection::colorDetect(int h, int s, int v)
@@ -183,17 +193,28 @@ void ColorDetection::run()
                 tmp++;
             }
 
-        // Press 's' to save current face color
+        // Map face indices to state keys
+        std::vector<std::string> faceKeys = { "up", "front", "down", "back", "right", "left" };
+
+        // Press 's' to save current face color and update the state map
         char key = cv::waitKey(1);
         if (key == 's' && currentFace < 6)
         {
-            faceColor[currentFace++] = cubiesColor; // each face color contains 9 cubies
-            std::cout << "Saved colors for face " << currentFace << std::endl;
+            faceColor[currentFace] = cubiesColor; // save detected colors for the face
+
+            // Update the state map
+            std::vector<cv::Scalar>& currentFaceColors = faceColor[currentFace];
+            for (int i = 0; i < 9; ++i) {
+                state[faceKeys[currentFace]][i] = currentFaceColors[i];
+            }
+
+            std::cout << "Saved colors for face " << currentFace + 1 << std::endl;
+            currentFace++;
         }
 
         // Test preview frame
         const int faceNum = 6;
-        const std::vector<std::vector<std::pair<int, int>>> faceName[faceNum] = { upFace, frontFace, downFace, backFace, rightFace, leftFace };
+        const std::vector<std::vector<std::pair<int, int>>> faceName[faceNum] = { upFaceCoordinates, frontFaceCoordinates, downFaceCoordinates, backFaceCoordinates, rightFaceCoordinates, leftFaceCoordinates };
         drawPreviewSticker(previewFrame, faceName, faceNum);
 
         // Test fill stickers on preview frame
@@ -206,8 +227,12 @@ void ColorDetection::run()
         cv::imshow("frame", imgFlip);
         cv::imshow("Preview frame", previewFrame);
 
-        // Press 'q' to exit loop
+        // Press 'q' to exit loop and close windows
         if (key == 'q')
+        {
+            /*cv::destroyWindow("frame");
+            cv::destroyWindow("Preview frame");*/
             break;
+        }
     }
 }

@@ -20,37 +20,37 @@ private:
 
     ///////////////// Coordinates of 6 faces of rubik's cube //////////////////////////
 
-    std::vector<std::vector<std::pair<int, int>>> leftFace = {
+    std::vector<std::vector<std::pair<int, int>>> leftFaceCoordinates = {
         {{50, 280}, {94, 280}, {138, 280}},
         {{50, 324}, {94, 324}, {138, 324}},
         {{50, 368}, {94, 368}, {138, 368}}
     };
 
-    std::vector<std::vector<std::pair<int, int>>> frontFace = {
+    std::vector<std::vector<std::pair<int, int>>> frontFaceCoordinates = {
         {{188, 280}, {232, 280}, {276, 280}},
         {{188, 324}, {232, 324}, {276, 324}},
         {{188, 368}, {232, 368}, {276, 368}}
     };
 
-    std::vector<std::vector<std::pair<int, int>>> rightFace = {
+    std::vector<std::vector<std::pair<int, int>>> rightFaceCoordinates = {
         {{326, 280}, {370, 280}, {414, 280}},
         {{326, 324}, {370, 324}, {414, 324}},
         {{326, 368}, {370, 368}, {414, 368}}
     };
 
-    std::vector<std::vector<std::pair<int, int>>> upFace = {
+    std::vector<std::vector<std::pair<int, int>>> upFaceCoordinates = {
         {{188, 128}, {232, 128}, {276, 128}},
         {{188, 172}, {232, 172}, {276, 172}},
         {{188, 216}, {232, 216}, {276, 216}}
     };
 
-    std::vector<std::vector<std::pair<int, int>>> downFace = {
+    std::vector<std::vector<std::pair<int, int>>> downFaceCoordinates = {
         {{188, 434}, {232, 434}, {276, 434}},
         {{188, 478}, {232, 478}, {276, 478}},
         {{188, 522}, {232, 522}, {276, 522}}
     };
 
-    std::vector<std::vector<std::pair<int, int>>> backFace = {
+    std::vector<std::vector<std::pair<int, int>>> backFaceCoordinates = {
         {{464, 280}, {508, 280}, {552, 280}},
         {{464, 324}, {508, 324}, {552, 324}},
         {{464, 368}, {508, 368}, {552, 368}}
@@ -58,6 +58,34 @@ private:
 
     /////////////////////////////////////////////////////////////////////
 
+
+    // State used for future solving graphical demonstration
+    // Initialize the state with default white color
+    std::map<std::string, std::vector<cv::Scalar>> state = {
+        {"up", {cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255},
+                cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255},
+                cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}}},
+
+        {"front", {cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255},
+                  cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255},
+                  cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}}},
+
+        {"down", {cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255},
+                 cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255},
+                 cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}}},
+
+        {"back", {cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255},
+                 cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255},
+                 cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}}},
+
+        {"right", {cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255},
+                  cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255},
+                  cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}}},
+
+        {"left", {cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255},
+                 cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255},
+                 cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}, cv::Scalar{255, 255, 255}}}
+    };
 
     // Color map
     std::map<std::string, cv::Scalar> getColor = {
@@ -86,7 +114,14 @@ private:
 public:
 	ColorDetection();
 
+    // Get state afteer real-time color detection
+    std::map<std::string, std::vector<cv::Scalar>>& getState();
+
+    // Get cube scrambled after real-time color detection
     Rubik& getCube();
+
+    // Return a clone to avoid modifying the original preview frame
+    const cv::Mat& getPreviewFrame();
 
     std::string colorDetect(int, int, int);
     
