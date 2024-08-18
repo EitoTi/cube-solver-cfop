@@ -114,7 +114,7 @@ private:
 public:
 	ColorDetection();
 
-    // Get state afteer real-time color detection
+    // Get state after real-time color detection
     std::map<std::string, std::vector<cv::Scalar>>& getState();
 
     // Get cube scrambled after real-time color detection
@@ -122,6 +122,10 @@ public:
 
     // Return a clone to avoid modifying the original preview frame
     const cv::Mat& getPreviewFrame();
+
+    // Graphical representation of cube
+    void visualClockWise(const std::string);
+    void visualCounterClockWise(const std::string);
 
     std::string colorDetect(int, int, int);
     

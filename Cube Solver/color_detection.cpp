@@ -17,6 +17,542 @@ const cv::Mat& ColorDetection::getPreviewFrame()
     return previewFrame;
 }
 
+void ColorDetection::visualClockWise(const std::string side)
+{
+    cv::Scalar tmpColor01;
+    cv::Scalar tmpColor02;
+    cv::Scalar tmpColor03;
+
+    // Basic face rotations
+    if (side == "front")
+    {
+        tmpColor01 = state["front"][6];
+        tmpColor02 = state["front"][7];
+        tmpColor03 = state["front"][8];
+
+        state["front"][6] = state["left"][8];
+        state["front"][7] = state["left"][5];
+        state["front"][8] = state["left"][2];
+
+        state["left"][8] = state["down"][2];
+        state["left"][5] = state["down"][1];
+        state["left"][2] = state["down"][0];
+
+        state["down"][2] = state["right"][0];
+        state["down"][1] = state["right"][3];
+        state["down"][0] = state["right"][6];
+
+        state["right"][0] = tmpColor01;
+        state["right"][3] = tmpColor02;
+        state["right"][6] = tmpColor03;
+    }
+    else if (side == "down")
+    {
+        tmpColor01 = state["front"][6];
+        tmpColor02 = state["front"][7];
+        tmpColor03 = state["front"][8];
+
+        state["front"][6] = state["left"][6];
+        state["front"][7] = state["left"][7];
+        state["front"][8] = state["left"][8];
+
+        state["left"][6] = state["back"][2];
+        state["left"][7] = state["back"][1];
+        state["left"][8] = state["back"][0];
+
+        state["back"][2] = state["right"][6];
+        state["back"][1] = state["right"][7];
+        state["back"][0] = state["right"][8];
+
+        state["right"][6] = tmpColor01;
+        state["right"][7] = tmpColor02;
+        state["right"][8] = tmpColor03;
+    }
+    else if (side == "back")
+    {
+        tmpColor01 = state["up"][0];
+        tmpColor02 = state["up"][1];
+        tmpColor03 = state["up"][2];
+
+        state["up"][0] = state["right"][2];
+        state["up"][1] = state["right"][5];
+        state["up"][2] = state["right"][8];
+
+        state["right"][2] = state["down"][8];
+        state["right"][5] = state["down"][7];
+        state["right"][8] = state["down"][6];
+
+        state["down"][8] = state["left"][6];
+        state["down"][7] = state["left"][3];
+        state["down"][6] = state["left"][0];
+
+        state["left"][6] = tmpColor01;
+        state["left"][3] = tmpColor02;
+        state["left"][0] = tmpColor03;
+    }
+    else if (side == "up")
+    {
+        tmpColor01 = state["front"][0];
+        tmpColor02 = state["front"][1];
+        tmpColor03 = state["front"][2];
+
+        state["front"][0] = state["right"][0];
+        state["front"][1] = state["right"][1];
+        state["front"][2] = state["right"][2];
+
+        state["right"][0] = state["back"][8];
+        state["right"][1] = state["back"][7];
+        state["right"][2] = state["back"][6];
+
+        state["back"][8] = state["left"][0];
+        state["back"][7] = state["left"][1];
+        state["back"][6] = state["left"][2];
+
+        state["left"][0] = tmpColor01;
+        state["left"][1] = tmpColor02;
+        state["left"][2] = tmpColor03;
+    }
+    else if (side == "right")
+    {
+        tmpColor01 = state["front"][2];
+        tmpColor02 = state["front"][5];
+        tmpColor03 = state["front"][8];
+
+        state["front"][2] = state["down"][2];
+        state["front"][5] = state["down"][5];
+        state["front"][8] = state["down"][8];
+
+        state["down"][2] = state["back"][2];
+        state["down"][5] = state["back"][5];
+        state["down"][8] = state["back"][8];
+
+        state["back"][2] = state["up"][2];
+        state["back"][5] = state["up"][5];
+        state["back"][8] = state["up"][8];
+
+        state["up"][2] = tmpColor01;
+        state["up"][5] = tmpColor02;
+        state["up"][8] = tmpColor03;
+    }
+    else if (side == "left")
+    {
+        tmpColor01 = state["front"][0];
+        tmpColor02 = state["front"][3];
+        tmpColor03 = state["front"][6];
+
+        state["front"][0] = state["up"][0];
+        state["front"][3] = state["up"][3];
+        state["front"][6] = state["up"][6];
+
+        state["up"][0] = state["back"][0];
+        state["up"][3] = state["back"][3];
+        state["up"][6] = state["back"][6];
+
+        state["back"][0] = state["down"][0];
+        state["back"][3] = state["down"][3];
+        state["back"][6] = state["down"][6];
+
+        state["down"][0] = tmpColor01;
+        state["down"][3] = tmpColor02;
+        state["down"][6] = tmpColor03;
+    }
+    else if (side == "M")
+    {
+        tmpColor01 = state["up"][1];
+        tmpColor02 = state["up"][4];
+        tmpColor03 = state["up"][7];
+
+        state["up"][1] = state["back"][1];
+        state["up"][4] = state["back"][4];
+        state["up"][7] = state["back"][7];
+
+        state["back"][1] = state["down"][1];
+        state["back"][4] = state["down"][4];
+        state["back"][7] = state["down"][7];
+
+        state["down"][1] = state["front"][1];
+        state["down"][4] = state["front"][4];
+        state["down"][7] = state["front"][7];
+
+        state["front"][1] = tmpColor01;
+        state["front"][4] = tmpColor02;
+        state["front"][7] = tmpColor03;
+    }
+    else if (side == "E")
+    {
+        tmpColor01 = state["front"][3];
+        tmpColor02 = state["front"][4];
+        tmpColor03 = state["front"][5];
+
+        state["front"][3] = state["left"][3];
+        state["front"][4] = state["left"][4];
+        state["front"][5] = state["left"][5];
+
+        state["left"][3] = state["back"][5];
+        state["left"][4] = state["back"][4];
+        state["left"][5] = state["back"][3];
+
+        state["back"][5] = state["right"][3];
+        state["back"][4] = state["right"][4];
+        state["back"][3] = state["right"][5];
+
+        state["right"][3] = tmpColor01;
+        state["right"][4] = tmpColor02;
+        state["right"][5] = tmpColor03;
+    }
+    else if (side == "S")
+    {
+        tmpColor01 = state["up"][3];
+        tmpColor02 = state["up"][4];
+        tmpColor03 = state["up"][5];
+
+        state["up"][3] = state["left"][7];
+        state["up"][4] = state["left"][4];
+        state["up"][5] = state["left"][1];
+
+        state["left"][7] = state["down"][5];
+        state["left"][4] = state["down"][4];
+        state["left"][1] = state["down"][3];
+
+        state["down"][5] = state["right"][1];
+        state["down"][4] = state["right"][4];
+        state["down"][3] = state["right"][7];
+
+        state["right"][1] = tmpColor01;
+        state["right"][4] = tmpColor02;
+        state["right"][7] = tmpColor03;
+    }
+    else if (side == "u")
+    {
+        visualClockWise("up");
+        visualCounterClockWise("E");
+    }
+    else if (side == "f")
+    {
+        visualClockWise("front");
+        visualClockWise("S");
+    }
+    else if (side == "d")
+    {
+        visualClockWise("down");
+        visualClockWise("E");
+    }
+    else if (side == "b")
+    {
+        visualClockWise("back");
+        visualCounterClockWise("S");
+    }
+    else if (side == "r")
+    {
+        visualClockWise("right");
+        visualCounterClockWise("M");
+    }
+    else if (side == "l")
+    {
+        visualClockWise("left");
+        visualClockWise("M");
+    }
+    else if (side == "x")
+    {
+        visualClockWise("r");
+        visualCounterClockWise("left");
+        }
+    else if (side == "y")
+    {
+        visualClockWise("up");
+        visualCounterClockWise("d");
+    }
+    else if (side == "z")
+    {
+        visualClockWise("f");
+        visualCounterClockWise("back");
+    }
+
+
+    // Rotate main face clockwise
+    if (side == "up" || side == "front" || side == "down" || side == "back" || side == "right" || side == "left")
+    {
+        tmpColor01 = state[side][0];
+        tmpColor02 = state[side][1];
+        state[side][0] = state[side][6];
+        state[side][1] = state[side][3];
+        state[side][6] = state[side][8];
+        state[side][3] = state[side][7];
+        state[side][8] = state[side][2];
+        state[side][7] = state[side][5];
+        state[side][2] = tmpColor01;
+        state[side][5] = tmpColor02;
+    }
+}
+
+void ColorDetection::visualCounterClockWise(const std::string side)
+{
+    cv::Scalar tmpColor01;
+    cv::Scalar tmpColor02;
+    cv::Scalar tmpColor03;
+
+    // Rotate all adjacent edges counter-clockwise
+    if (side == "front")
+    {
+        tmpColor01 = state["up"][6];
+        tmpColor02 = state["up"][7];
+        tmpColor03 = state["up"][8];
+
+        state["up"][6] = state["right"][0];
+        state["up"][7] = state["right"][3];
+        state["up"][8] = state["right"][6];
+
+        state["right"][0] = state["down"][2];
+        state["right"][3] = state["down"][1];
+        state["right"][6] = state["down"][0];
+
+        state["down"][2] = state["left"][8];
+        state["down"][1] = state["left"][5];
+        state["down"][0] = state["left"][2];
+
+        state["left"][8] = tmpColor01;
+        state["left"][5] = tmpColor02;
+        state["left"][2] = tmpColor03;
+    }
+    else if (side == "down")
+    {
+        tmpColor01 = state["front"][6];
+        tmpColor02 = state["front"][7];
+        tmpColor03 = state["front"][8];
+
+        state["front"][6] = state["right"][6];
+        state["front"][7] = state["right"][7];
+        state["front"][8] = state["right"][8];
+
+        state["right"][6] = state["back"][2];
+        state["right"][7] = state["back"][1];
+        state["right"][8] = state["back"][0];
+
+        state["back"][2] = state["left"][6];
+        state["back"][1] = state["left"][7];
+        state["back"][0] = state["left"][8];
+
+        state["left"][6] = tmpColor01;
+        state["left"][7] = tmpColor02;
+        state["left"][8] = tmpColor03;
+    }
+    else if (side == "back")
+    {
+        tmpColor01 = state["up"][0];
+        tmpColor02 = state["up"][1];
+        tmpColor03 = state["up"][2];
+
+        state["up"][0] = state["left"][6];
+        state["up"][1] = state["left"][3];
+        state["up"][2] = state["left"][0];
+
+        state["left"][6] = state["down"][8];
+        state["left"][3] = state["down"][7];
+        state["left"][0] = state["down"][6];
+
+        state["down"][8] = state["right"][2];
+        state["down"][7] = state["right"][5];
+        state["down"][6] = state["right"][8];
+
+        state["right"][2] = tmpColor01;
+        state["right"][5] = tmpColor02;
+        state["right"][8] = tmpColor03;
+    }
+    else if (side == "up")
+    {
+        tmpColor01 = state["front"][0];
+        tmpColor02 = state["front"][1];
+        tmpColor03 = state["front"][2];
+        
+        state["front"][0] = state["left"][0];
+        state["front"][1] = state["left"][1];
+        state["front"][2] = state["left"][2];
+
+        state["left"][0] = state["back"][8];
+        state["left"][1] = state["back"][7];
+        state["left"][2] = state["back"][6];
+
+        state["back"][8] = state["right"][0];
+        state["back"][7] = state["right"][1];
+        state["back"][6] = state["right"][2];
+
+        state["right"][0] = tmpColor01;
+        state["right"][1] = tmpColor02;
+        state["right"][2] = tmpColor03;
+    }
+    else if (side == "right")
+    {
+        tmpColor01 = state["up"][8];
+        tmpColor02 = state["up"][5];
+        tmpColor03 = state["up"][2];
+
+        state["up"][8] = state["back"][8];
+        state["up"][5] = state["back"][5];
+        state["up"][2] = state["back"][2];
+
+        state["back"][8] = state["down"][8];
+        state["back"][5] = state["down"][5];
+        state["back"][2] = state["down"][2];
+
+        state["down"][8] = state["front"][8];
+        state["down"][5] = state["front"][5];
+        state["down"][2] = state["front"][2];
+
+        state["front"][8] = tmpColor01;
+        state["front"][5] = tmpColor02;
+        state["front"][2] = tmpColor03;
+    }
+    else if (side == "left")
+    {
+        tmpColor01 = state["front"][0];
+        tmpColor02 = state["front"][3];
+        tmpColor03 = state["front"][6];
+
+        state["front"][0] = state["down"][0];
+        state["front"][3] = state["down"][3];
+        state["front"][6] = state["down"][6];
+
+        state["down"][0] = state["back"][0];
+        state["down"][3] = state["back"][3];
+        state["down"][6] = state["back"][6];
+
+        state["back"][0] = state["up"][0];
+        state["back"][3] = state["up"][3];
+        state["back"][6] = state["up"][6];
+
+        state["up"][0] = tmpColor01;
+        state["up"][3] = tmpColor02;
+        state["up"][6] = tmpColor03;
+    }
+    else if (side == "M")
+    {
+        tmpColor01 = state["up"][1];
+        tmpColor02 = state["up"][4];
+        tmpColor03 = state["up"][7];
+
+        state["up"][1] = state["front"][1];
+        state["up"][4] = state["front"][4];
+        state["up"][7] = state["front"][7];
+
+        state["front"][1] = state["down"][1];
+        state["front"][4] = state["down"][4];
+        state["front"][7] = state["down"][7];
+
+        state["down"][1] = state["back"][1];
+        state["down"][4] = state["back"][4];
+        state["down"][7] = state["back"][7];
+
+        state["back"][1] = tmpColor01;
+        state["back"][4] = tmpColor02;
+        state["back"][7] = tmpColor03;
+    }
+    else if (side == "E")
+    {
+        tmpColor01 = state["front"][3];
+        tmpColor02 = state["front"][4];
+        tmpColor03 = state["front"][5];
+
+        state["front"][3] = state["right"][3];
+        state["front"][4] = state["right"][4];
+        state["front"][5] = state["right"][5];
+
+        state["right"][3] = state["back"][5];
+        state["right"][4] = state["back"][4];
+        state["right"][5] = state["back"][3];
+
+        state["back"][5] = state["left"][3];
+        state["back"][4] = state["left"][4];
+        state["back"][3] = state["left"][5];
+
+        state["left"][3] = tmpColor01;
+        state["left"][4] = tmpColor02;
+        state["left"][5] = tmpColor03;
+    }
+    else if (side == "S")
+    {
+        tmpColor01 = state["up"][3];
+        tmpColor02 = state["up"][4];
+        tmpColor03 = state["up"][5];
+
+        state["up"][3] = state["right"][1];
+        state["up"][4] = state["right"][4];
+        state["up"][5] = state["right"][7];
+
+        state["right"][1] = state["down"][5];
+        state["right"][4] = state["down"][4];
+        state["right"][7] = state["down"][3];
+
+        state["down"][5] = state["left"][7];
+        state["down"][4] = state["left"][4];
+        state["down"][3] = state["left"][1];
+
+        state["left"][7] = tmpColor01;
+        state["left"][4] = tmpColor02;
+        state["left"][1] = tmpColor03;
+    }
+    else if (side == "u")
+    {
+        visualCounterClockWise("up");
+        visualClockWise("E");
+    }
+    else if (side == "f")
+    {
+        visualCounterClockWise("front");
+        visualCounterClockWise("S");
+    }
+    else if (side == "d")
+    {
+        visualCounterClockWise("down");
+        visualCounterClockWise("E");
+    }
+    else if (side == "b")
+    {
+        visualCounterClockWise("back");
+        visualClockWise("S");
+    }
+    else if (side == "r")
+    {
+        visualCounterClockWise("right");
+        visualClockWise("M");
+    }
+    else if (side == "l")
+    {
+        visualCounterClockWise("left");
+        visualCounterClockWise("M");
+    }
+    else if (side == "x")
+    {
+        visualCounterClockWise("r");
+        visualClockWise("left");
+    }
+    else if (side == "y")
+    {
+        visualClockWise("d");
+        visualCounterClockWise("up");
+    }
+    else if (side == "z")
+    {
+        visualCounterClockWise("f");
+        visualClockWise("back");
+    }
+
+
+    // Rotate main face counter-clockwise
+    if (side == "up" || side == "front" || side == "down" || side == "back" || side == "right" || side == "left")
+    {
+        tmpColor01 = state[side][0];
+        tmpColor02 = state[side][1];
+        state[side][0] = state[side][2];
+        state[side][1] = state[side][5];
+        state[side][2] = state[side][8];
+        state[side][5] = state[side][7];
+        state[side][8] = state[side][6];
+        state[side][7] = state[side][3];
+        state[side][6] = tmpColor01;
+        state[side][3] = tmpColor02;
+    }
+}
+
 std::string ColorDetection::colorDetect(int h, int s, int v)
 {
     if ((h > 30 && h < 40) && (s > 150 && s < 180) && (v > 185 && v < 255))
@@ -210,6 +746,21 @@ void ColorDetection::run()
 
             std::cout << "Saved colors for face " << currentFace + 1 << std::endl;
             currentFace++;
+        }
+
+        // Press 'r' to rescan the current face and update the state map
+        if (key == 'r' && currentFace > 0)
+        {
+            currentFace--;
+            faceColor[currentFace] = cubiesColor; // update the colors for the face
+
+            // Update the state map again
+            std::vector<cv::Scalar>& currentFaceColors = faceColor[currentFace];
+            for (int i = 0; i < 9; ++i) {
+                state[faceKeys[currentFace]][i] = currentFaceColors[i];
+            }
+
+            std::cout << "Rescanned and updated colors for face " << currentFace + 1 << std::endl;
         }
 
         // Test preview frame
