@@ -12,13 +12,51 @@ private:
 	cv::Mat img, imgFlip, imgHSV;
 
 	// frame to show output of color detection
-	cv::Mat previewFrame;
+	cv::Mat previewFrame, solutionFrame;
 
 	// Storage for the colors of each face
 	std::vector<cv::Scalar> faceColor[6];
 	int currentFace = 0;
 
-    ///////////////// Coordinates of 6 faces of rubik's cube //////////////////////////
+    /////////////////////////////////// Face Coordinates Map ///////////////////////////////////
+
+    std::map<std::string, std::vector<std::vector<std::pair<int, int>>>> faceCoordinates = {
+        { "left", {
+            {{50, 280}, {94, 280}, {138, 280}},
+            {{50, 324}, {94, 324}, {138, 324}},
+            {{50, 368}, {94, 368}, {138, 368}}
+        }},
+        { "front", {
+            {{188, 280}, {232, 280}, {276, 280}},
+            {{188, 324}, {232, 324}, {276, 324}},
+            {{188, 368}, {232, 368}, {276, 368}}
+        }},
+        { "right", {
+            {{326, 280}, {370, 280}, {414, 280}},
+            {{326, 324}, {370, 324}, {414, 324}},
+            {{326, 368}, {370, 368}, {414, 368}}
+        }},
+        { "up", {
+            {{188, 128}, {232, 128}, {276, 128}},
+            {{188, 172}, {232, 172}, {276, 172}},
+            {{188, 216}, {232, 216}, {276, 216}}
+        }},
+        { "down", {
+            {{188, 434}, {232, 434}, {276, 434}},
+            {{188, 478}, {232, 478}, {276, 478}},
+            {{188, 522}, {232, 522}, {276, 522}}
+        }},
+        { "back", {
+            {{464, 280}, {508, 280}, {552, 280}},
+            {{464, 324}, {508, 324}, {552, 324}},
+            {{464, 368}, {508, 368}, {552, 368}}
+        }}
+    };
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+    //////////////////////// Coordinates of 6 faces of rubik's cube /////////////////////////////////
 
     std::vector<std::vector<std::pair<int, int>>> leftFaceCoordinates = {
         {{50, 280}, {94, 280}, {138, 280}},
@@ -56,7 +94,7 @@ private:
         {{464, 368}, {508, 368}, {552, 368}}
     };
 
-    /////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     // State used for future solving graphical demonstration
@@ -136,6 +174,9 @@ public:
     // Fill sticker color on preview frame
     void fillSticker(cv::Mat&, const std::vector<std::vector<std::pair<int, int>>>&, int, const std::vector<cv::Scalar>&);
 
+    // Fill sticker color on solution frame
+    void fillSolutionSticker(cv::Mat&, std::map<std::string, std::vector<std::vector<std::pair<int, int>>>>, std::map<std::string, std::vector<cv::Scalar>>);
+
     // Mapping Detected Colors to Enum
     Color mapScalarToColor(const cv::Scalar&);
 
@@ -144,5 +185,7 @@ public:
 
     void run();
 
+    // Display and update solution frame after each move
+    void process(std::string);
 };
 #endif // !_COLOR_DETECTION

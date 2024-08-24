@@ -1,6 +1,6 @@
 #include "color_detection.h"
 
-ColorDetection::ColorDetection() : cap(0), previewFrame(800, 640, CV_8UC3, cv::Scalar(255, 255, 255)) {}
+ColorDetection::ColorDetection() : cap(0), previewFrame(800, 640, CV_8UC3, cv::Scalar(255, 255, 255)), solutionFrame(750, 640, CV_8UC3, cv::Scalar(255, 255, 255)) {}
 
 std::map<std::string, std::vector<cv::Scalar>>& ColorDetection::getState()
 {
@@ -26,25 +26,25 @@ void ColorDetection::visualClockWise(const std::string side)
     // Basic face rotations
     if (side == "front")
     {
-        tmpColor01 = state["front"][6];
-        tmpColor02 = state["front"][7];
-        tmpColor03 = state["front"][8];
+        tmpColor01 = state["up"][6];
+        tmpColor02 = state["up"][7];
+        tmpColor03 = state["up"][8];
 
-        state["front"][6] = state["left"][8];
-        state["front"][7] = state["left"][5];
-        state["front"][8] = state["left"][2];
+        state["up"][6] = state["left"][0];
+        state["up"][7] = state["left"][3];
+        state["up"][8] = state["left"][6];
 
-        state["left"][8] = state["down"][2];
-        state["left"][5] = state["down"][1];
-        state["left"][2] = state["down"][0];
+        state["left"][0] = state["down"][2];
+        state["left"][3] = state["down"][1];
+        state["left"][6] = state["down"][0];
 
-        state["down"][2] = state["right"][0];
-        state["down"][1] = state["right"][3];
-        state["down"][0] = state["right"][6];
+        state["down"][2] = state["right"][8];
+        state["down"][1] = state["right"][5];
+        state["down"][0] = state["right"][2];
 
-        state["right"][0] = tmpColor01;
-        state["right"][3] = tmpColor02;
-        state["right"][6] = tmpColor03;
+        state["right"][8] = tmpColor01;
+        state["right"][5] = tmpColor02;
+        state["right"][2] = tmpColor03;
     }
     else if (side == "down")
     {
@@ -74,21 +74,21 @@ void ColorDetection::visualClockWise(const std::string side)
         tmpColor02 = state["up"][1];
         tmpColor03 = state["up"][2];
 
-        state["up"][0] = state["right"][2];
-        state["up"][1] = state["right"][5];
-        state["up"][2] = state["right"][8];
+        state["up"][0] = state["right"][6];
+        state["up"][1] = state["right"][3];
+        state["up"][2] = state["right"][0];
 
-        state["right"][2] = state["down"][8];
-        state["right"][5] = state["down"][7];
-        state["right"][8] = state["down"][6];
+        state["right"][6] = state["down"][8];
+        state["right"][3] = state["down"][7];
+        state["right"][0] = state["down"][6];
 
-        state["down"][8] = state["left"][6];
-        state["down"][7] = state["left"][3];
-        state["down"][6] = state["left"][0];
+        state["down"][8] = state["left"][2];
+        state["down"][7] = state["left"][5];
+        state["down"][6] = state["left"][8];
 
-        state["left"][6] = tmpColor01;
-        state["left"][3] = tmpColor02;
-        state["left"][0] = tmpColor03;
+        state["left"][2] = tmpColor01;
+        state["left"][5] = tmpColor02;
+        state["left"][8] = tmpColor03;
     }
     else if (side == "up")
     {
@@ -114,47 +114,47 @@ void ColorDetection::visualClockWise(const std::string side)
     }
     else if (side == "right")
     {
-        tmpColor01 = state["front"][2];
-        tmpColor02 = state["front"][5];
-        tmpColor03 = state["front"][8];
-
-        state["front"][2] = state["down"][2];
-        state["front"][5] = state["down"][5];
-        state["front"][8] = state["down"][8];
-
-        state["down"][2] = state["back"][2];
-        state["down"][5] = state["back"][5];
-        state["down"][8] = state["back"][8];
-
-        state["back"][2] = state["up"][2];
-        state["back"][5] = state["up"][5];
-        state["back"][8] = state["up"][8];
-
-        state["up"][2] = tmpColor01;
-        state["up"][5] = tmpColor02;
-        state["up"][8] = tmpColor03;
-    }
-    else if (side == "left")
-    {
         tmpColor01 = state["front"][0];
         tmpColor02 = state["front"][3];
         tmpColor03 = state["front"][6];
 
-        state["front"][0] = state["up"][0];
-        state["front"][3] = state["up"][3];
-        state["front"][6] = state["up"][6];
+        state["front"][0] = state["down"][0];
+        state["front"][3] = state["down"][3];
+        state["front"][6] = state["down"][6];
 
-        state["up"][0] = state["back"][0];
-        state["up"][3] = state["back"][3];
-        state["up"][6] = state["back"][6];
+        state["down"][0] = state["back"][0];
+        state["down"][3] = state["back"][3];
+        state["down"][6] = state["back"][6];
 
-        state["back"][0] = state["down"][0];
-        state["back"][3] = state["down"][3];
-        state["back"][6] = state["down"][6];
+        state["back"][0] = state["up"][0];
+        state["back"][3] = state["up"][3];
+        state["back"][6] = state["up"][6];
 
-        state["down"][0] = tmpColor01;
-        state["down"][3] = tmpColor02;
-        state["down"][6] = tmpColor03;
+        state["up"][0] = tmpColor01;
+        state["up"][3] = tmpColor02;
+        state["up"][6] = tmpColor03;
+    }
+    else if (side == "left")
+    {
+        tmpColor01 = state["front"][2];
+        tmpColor02 = state["front"][5];
+        tmpColor03 = state["front"][8];
+
+        state["front"][2] = state["up"][2];
+        state["front"][5] = state["up"][5];
+        state["front"][8] = state["up"][8];
+
+        state["up"][2] = state["back"][2];
+        state["up"][5] = state["back"][5];
+        state["up"][8] = state["back"][8];
+
+        state["back"][2] = state["down"][2];
+        state["back"][5] = state["down"][5];
+        state["back"][8] = state["down"][8];
+
+        state["down"][2] = tmpColor01;
+        state["down"][5] = tmpColor02;
+        state["down"][8] = tmpColor03;
     }
     else if (side == "M")
     {
@@ -206,21 +206,21 @@ void ColorDetection::visualClockWise(const std::string side)
         tmpColor02 = state["up"][4];
         tmpColor03 = state["up"][5];
 
-        state["up"][3] = state["left"][7];
+        state["up"][3] = state["left"][1];
         state["up"][4] = state["left"][4];
-        state["up"][5] = state["left"][1];
+        state["up"][5] = state["left"][7];
 
-        state["left"][7] = state["down"][5];
+        state["left"][7] = state["down"][3];
         state["left"][4] = state["down"][4];
-        state["left"][1] = state["down"][3];
+        state["left"][1] = state["down"][5];
 
-        state["down"][5] = state["right"][1];
+        state["down"][3] = state["right"][1];
         state["down"][4] = state["right"][4];
-        state["down"][3] = state["right"][7];
+        state["down"][5] = state["right"][7];
 
-        state["right"][1] = tmpColor01;
+        state["right"][1] = tmpColor03;
         state["right"][4] = tmpColor02;
-        state["right"][7] = tmpColor03;
+        state["right"][7] = tmpColor01;
     }
     else if (side == "u")
     {
@@ -256,7 +256,7 @@ void ColorDetection::visualClockWise(const std::string side)
     {
         visualClockWise("r");
         visualCounterClockWise("left");
-        }
+    }
     else if (side == "y")
     {
         visualClockWise("up");
@@ -274,14 +274,14 @@ void ColorDetection::visualClockWise(const std::string side)
     {
         tmpColor01 = state[side][0];
         tmpColor02 = state[side][1];
-        state[side][0] = state[side][6];
-        state[side][1] = state[side][3];
-        state[side][6] = state[side][8];
-        state[side][3] = state[side][7];
-        state[side][8] = state[side][2];
-        state[side][7] = state[side][5];
-        state[side][2] = tmpColor01;
-        state[side][5] = tmpColor02;
+        state[side][0] = state[side][2];
+        state[side][1] = state[side][5];
+        state[side][2] = state[side][8];
+        state[side][5] = state[side][7];
+        state[side][8] = state[side][6];
+        state[side][7] = state[side][3];
+        state[side][6] = tmpColor01;
+        state[side][3] = tmpColor02;
     }
 }
 
@@ -298,21 +298,21 @@ void ColorDetection::visualCounterClockWise(const std::string side)
         tmpColor02 = state["up"][7];
         tmpColor03 = state["up"][8];
 
-        state["up"][6] = state["right"][0];
-        state["up"][7] = state["right"][3];
-        state["up"][8] = state["right"][6];
+        state["up"][6] = state["right"][8];
+        state["up"][7] = state["right"][5];
+        state["up"][8] = state["right"][2];
 
-        state["right"][0] = state["down"][2];
-        state["right"][3] = state["down"][1];
-        state["right"][6] = state["down"][0];
+        state["right"][2] = state["down"][0];
+        state["right"][5] = state["down"][1];
+        state["right"][8] = state["down"][2];
 
-        state["down"][2] = state["left"][8];
-        state["down"][1] = state["left"][5];
-        state["down"][0] = state["left"][2];
+        state["down"][2] = state["left"][0];
+        state["down"][1] = state["left"][3];
+        state["down"][0] = state["left"][6];
 
-        state["left"][8] = tmpColor01;
-        state["left"][5] = tmpColor02;
-        state["left"][2] = tmpColor03;
+        state["left"][0] = tmpColor01;
+        state["left"][3] = tmpColor02;
+        state["left"][6] = tmpColor03;
     }
     else if (side == "down")
     {
@@ -342,28 +342,28 @@ void ColorDetection::visualCounterClockWise(const std::string side)
         tmpColor02 = state["up"][1];
         tmpColor03 = state["up"][2];
 
-        state["up"][0] = state["left"][6];
-        state["up"][1] = state["left"][3];
-        state["up"][2] = state["left"][0];
+        state["up"][0] = state["left"][2];
+        state["up"][1] = state["left"][5];
+        state["up"][2] = state["left"][8];
 
-        state["left"][6] = state["down"][8];
-        state["left"][3] = state["down"][7];
-        state["left"][0] = state["down"][6];
+        state["left"][2] = state["down"][8];
+        state["left"][5] = state["down"][7];
+        state["left"][8] = state["down"][6];
 
-        state["down"][8] = state["right"][2];
-        state["down"][7] = state["right"][5];
-        state["down"][6] = state["right"][8];
+        state["down"][8] = state["right"][6];
+        state["down"][7] = state["right"][3];
+        state["down"][6] = state["right"][0];
 
-        state["right"][2] = tmpColor01;
-        state["right"][5] = tmpColor02;
-        state["right"][8] = tmpColor03;
+        state["right"][6] = tmpColor01;
+        state["right"][3] = tmpColor02;
+        state["right"][0] = tmpColor03;
     }
     else if (side == "up")
     {
         tmpColor01 = state["front"][0];
         tmpColor02 = state["front"][1];
         tmpColor03 = state["front"][2];
-        
+
         state["front"][0] = state["left"][0];
         state["front"][1] = state["left"][1];
         state["front"][2] = state["left"][2];
@@ -382,47 +382,47 @@ void ColorDetection::visualCounterClockWise(const std::string side)
     }
     else if (side == "right")
     {
-        tmpColor01 = state["up"][8];
-        tmpColor02 = state["up"][5];
-        tmpColor03 = state["up"][2];
+        tmpColor01 = state["up"][0];
+        tmpColor02 = state["up"][3];
+        tmpColor03 = state["up"][6];
 
-        state["up"][8] = state["back"][8];
-        state["up"][5] = state["back"][5];
-        state["up"][2] = state["back"][2];
+        state["up"][0] = state["back"][0];
+        state["up"][3] = state["back"][3];
+        state["up"][6] = state["back"][6];
 
-        state["back"][8] = state["down"][8];
-        state["back"][5] = state["down"][5];
-        state["back"][2] = state["down"][2];
+        state["back"][0] = state["down"][0];
+        state["back"][3] = state["down"][3];
+        state["back"][6] = state["down"][6];
 
-        state["down"][8] = state["front"][8];
-        state["down"][5] = state["front"][5];
-        state["down"][2] = state["front"][2];
+        state["down"][0] = state["front"][0];
+        state["down"][3] = state["front"][3];
+        state["down"][6] = state["front"][6];
 
-        state["front"][8] = tmpColor01;
-        state["front"][5] = tmpColor02;
-        state["front"][2] = tmpColor03;
+        state["front"][0] = tmpColor01;
+        state["front"][3] = tmpColor02;
+        state["front"][6] = tmpColor03;
     }
     else if (side == "left")
     {
-        tmpColor01 = state["front"][0];
-        tmpColor02 = state["front"][3];
-        tmpColor03 = state["front"][6];
+        tmpColor01 = state["front"][2];
+        tmpColor02 = state["front"][5];
+        tmpColor03 = state["front"][8];
 
-        state["front"][0] = state["down"][0];
-        state["front"][3] = state["down"][3];
-        state["front"][6] = state["down"][6];
+        state["front"][2] = state["down"][2];
+        state["front"][5] = state["down"][5];
+        state["front"][8] = state["down"][8];
 
-        state["down"][0] = state["back"][0];
-        state["down"][3] = state["back"][3];
-        state["down"][6] = state["back"][6];
+        state["down"][2] = state["back"][2];
+        state["down"][5] = state["back"][5];
+        state["down"][8] = state["back"][8];
 
-        state["back"][0] = state["up"][0];
-        state["back"][3] = state["up"][3];
-        state["back"][6] = state["up"][6];
+        state["back"][2] = state["up"][2];
+        state["back"][5] = state["up"][5];
+        state["back"][8] = state["up"][8];
 
-        state["up"][0] = tmpColor01;
-        state["up"][3] = tmpColor02;
-        state["up"][6] = tmpColor03;
+        state["up"][2] = tmpColor01;
+        state["up"][5] = tmpColor02;
+        state["up"][8] = tmpColor03;
     }
     else if (side == "M")
     {
@@ -474,21 +474,21 @@ void ColorDetection::visualCounterClockWise(const std::string side)
         tmpColor02 = state["up"][4];
         tmpColor03 = state["up"][5];
 
-        state["up"][3] = state["right"][1];
+        state["up"][3] = state["right"][7];
         state["up"][4] = state["right"][4];
-        state["up"][5] = state["right"][7];
+        state["up"][5] = state["right"][1];
 
-        state["right"][1] = state["down"][5];
+        state["right"][7] = state["down"][5];
         state["right"][4] = state["down"][4];
-        state["right"][7] = state["down"][3];
+        state["right"][1] = state["down"][3];
 
-        state["down"][5] = state["left"][7];
+        state["down"][5] = state["left"][1];
         state["down"][4] = state["left"][4];
-        state["down"][3] = state["left"][1];
+        state["down"][3] = state["left"][7];
 
-        state["left"][7] = tmpColor01;
+        state["left"][1] = tmpColor01;
         state["left"][4] = tmpColor02;
-        state["left"][1] = tmpColor03;
+        state["left"][7] = tmpColor03;
     }
     else if (side == "u")
     {
@@ -542,14 +542,14 @@ void ColorDetection::visualCounterClockWise(const std::string side)
     {
         tmpColor01 = state[side][0];
         tmpColor02 = state[side][1];
-        state[side][0] = state[side][2];
-        state[side][1] = state[side][5];
-        state[side][2] = state[side][8];
-        state[side][5] = state[side][7];
-        state[side][8] = state[side][6];
-        state[side][7] = state[side][3];
-        state[side][6] = tmpColor01;
-        state[side][3] = tmpColor02;
+        state[side][0] = state[side][6];
+        state[side][1] = state[side][3];
+        state[side][6] = state[side][8];
+        state[side][3] = state[side][7];
+        state[side][8] = state[side][2];
+        state[side][7] = state[side][5];
+        state[side][2] = tmpColor01;
+        state[side][5] = tmpColor02;
     }
 }
 
@@ -642,6 +642,27 @@ void ColorDetection::fillSticker(cv::Mat& img, const std::vector<std::vector<std
                 cubieIndex++;
             }
         }
+}
+
+void ColorDetection::fillSolutionSticker(cv::Mat& img, std::map<std::string, std::vector<std::vector<std::pair<int, int>>>> faceCoordinates, std::map<std::string, std::vector<cv::Scalar>> state)
+{
+    for (const auto& cubeState : state)
+    {
+        const std::string& side = cubeState.first;
+        const std::vector<cv::Scalar> colors = cubeState.second;
+        const std::vector<std::vector<std::pair<int, int>>> stickerCoordinate = faceCoordinates[side];
+
+        int num = 0;
+        for (const auto& row : stickerCoordinate)
+            for (const auto& coord : row)
+            {
+                int x = coord.first;
+                int y = coord.second;
+
+                rectangle(img, cv::Point(x, y), cv::Point(x + 40, y + 40), colors[num], cv::FILLED);
+                num++;
+            }
+    }
 }
 
 Color ColorDetection::mapScalarToColor(const cv::Scalar& color) 
@@ -784,6 +805,142 @@ void ColorDetection::run()
             /*cv::destroyWindow("frame");
             cv::destroyWindow("Preview frame");*/
             break;
+        }
+    }
+}
+
+void ColorDetection::process(std::string solutionData)
+{
+    std::map<std::string, std::function<void()>> replace;
+
+    // F, F', F2
+    replace["F"] = [&]() { visualClockWise("front"); };
+    replace["F'"] = [&]() { visualCounterClockWise("front"); };
+    replace["F2"] = [&]() { visualClockWise("front"); visualClockWise("front"); };
+
+    // D, D', D2
+    replace["D"] = [&]() { visualClockWise("down"); };
+    replace["D'"] = [&]() { visualCounterClockWise("down"); };
+    replace["D2"] = [&]() { visualClockWise("down"); visualClockWise("down"); };
+
+    // B, B', B2
+    replace["B"] = [&]() { visualClockWise("back"); };
+    replace["B'"] = [&]() { visualCounterClockWise("back"); };
+    replace["B2"] = [&]() { visualClockWise("back"); visualClockWise("back"); };
+
+    // U, U', U2
+    replace["U"] = [&]() { visualClockWise("up"); };
+    replace["U'"] = [&]() { visualCounterClockWise("up"); };
+    replace["U2"] = [&]() { visualClockWise("up"); visualClockWise("up"); };
+
+    // R, R', R2
+    replace["R"] = [&]() { visualClockWise("right"); };
+    replace["R'"] = [&]() { visualCounterClockWise("right"); };
+    replace["R2"] = [&]() { visualClockWise("right"); visualClockWise("right"); };
+
+    // L, L', L2
+    replace["L"] = [&]() { visualClockWise("left"); };
+    replace["L'"] = [&]() { visualCounterClockWise("left"); };
+    replace["L2"] = [&]() { visualClockWise("left"); visualClockWise("left"); };
+
+    // M, M', M2
+    replace["M"] = [&]() { visualClockWise("M"); };
+    replace["M'"] = [&]() { visualCounterClockWise("M"); };
+    replace["M2"] = [&]() { visualClockWise("M"); visualClockWise("M"); };
+
+    // E, E', E2
+    replace["E"] = [&]() { visualClockWise("E"); };
+    replace["E'"] = [&]() { visualCounterClockWise("E"); };
+    replace["E2"] = [&]() { visualClockWise("E"); visualClockWise("E"); };
+
+    // S, S', S2
+    replace["S"] = [&]() { visualClockWise("S"); };
+    replace["S'"] = [&]() { visualCounterClockWise("S"); };
+    replace["S2"] = [&]() { visualClockWise("S"); visualClockWise("S"); };
+
+    // u, u', u2
+    replace["u"] = [&]() { visualClockWise("u"); };
+    replace["u'"] = [&]() { visualCounterClockWise("u"); };
+    replace["u2"] = [&]() { visualClockWise("u"); visualClockWise("u"); };
+
+    // f, f', f2
+    replace["f"] = [&]() { visualClockWise("f"); };
+    replace["f'"] = [&]() { visualCounterClockWise("f"); };
+    replace["f2"] = [&]() { visualClockWise("f"); visualClockWise("f"); };
+
+    // d, d', d2
+    replace["d"] = [&]() { visualClockWise("d"); };
+    replace["d'"] = [&]() { visualCounterClockWise("d"); };
+    replace["d2"] = [&]() { visualClockWise("d"); visualClockWise("d"); };
+
+    // b, b', b2
+    replace["b"] = [&]() { visualClockWise("b"); };
+    replace["b'"] = [&]() { visualCounterClockWise("b"); };
+    replace["b2"] = [&]() { visualClockWise("b"); visualClockWise("b"); };
+
+    // r, r', r2
+    replace["r"] = [&]() { visualClockWise("r"); };
+    replace["r'"] = [&]() { visualCounterClockWise("r"); };
+    replace["r2"] = [&]() { visualClockWise("r"); visualClockWise("r"); };
+
+    // l, l', l2
+    replace["l"] = [&]() { visualClockWise("l"); };
+    replace["l'"] = [&]() { visualCounterClockWise("l"); };
+    replace["l2"] = [&]() { visualClockWise("l"); visualClockWise("l"); };
+
+    // x, x', x2
+    replace["x"] = [&]() { visualClockWise("x"); };
+    replace["x'"] = [&]() { visualCounterClockWise("x"); };
+    replace["x2"] = [&]() { visualClockWise("x"); visualClockWise("x"); };
+
+    // y, y', y2
+    replace["y"] = [&]() { visualClockWise("y"); };
+    replace["y'"] = [&]() { visualCounterClockWise("y"); };
+    replace["y2"] = [&]() { visualClockWise("y"); visualClockWise("y"); };
+
+    // z, z', z2
+    replace["z"] = [&]() { visualClockWise("z"); };
+    replace["z'"] = [&]() { visualCounterClockWise("z"); };
+    replace["z2"] = [&]() { visualClockWise("z"); visualClockWise("z"); };
+    
+    std::stringstream ss(solutionData);
+    std::string move;
+
+    const int faceNum = 6;
+    const std::vector<std::vector<std::pair<int, int>>> faceName[faceNum] = { upFaceCoordinates, frontFaceCoordinates, downFaceCoordinates, backFaceCoordinates, rightFaceCoordinates, leftFaceCoordinates };
+
+    // Initial rendering
+    fillSolutionSticker(solutionFrame, faceCoordinates, state);
+    drawPreviewSticker(solutionFrame, faceName, faceNum);
+    imshow("solution", solutionFrame);
+
+    // Wait for a key press to perform the move
+    cv::waitKey(0);
+
+    std::vector<cv::Mat> solution;
+
+    while (ss >> move) {
+        // Validate the move
+        if (replace.find(move) != replace.end()) {
+
+            // Execute the move
+            replace[move]();
+
+            // Update the stickers after the move
+            fillSolutionSticker(solutionFrame, faceCoordinates, state);
+            drawPreviewSticker(solutionFrame, faceName, faceNum);
+
+            // Show the updated frame
+            imshow("solution", solutionFrame);
+
+            // Save the current frame in the solution vector for debug (optional)
+            solution.push_back(solutionFrame.clone());
+
+            // Wait for another key press to close or proceed
+            cv::waitKey(0);
+        }
+        else {
+            std::cerr << "Invalid move: " << move << std::endl;
         }
     }
 }
