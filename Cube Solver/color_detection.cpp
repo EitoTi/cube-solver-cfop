@@ -811,97 +811,97 @@ void ColorDetection::run()
 
 void ColorDetection::process(std::string solutionData)
 {
-    std::map<std::string, std::function<void()>> replace;
+    std::map<std::string, std::function<void()>> performMove;
 
     // F, F', F2
-    replace["F"] = [&]() { visualClockWise("front"); };
-    replace["F'"] = [&]() { visualCounterClockWise("front"); };
-    replace["F2"] = [&]() { visualClockWise("front"); visualClockWise("front"); };
+    performMove["F"] = [&]() { visualClockWise("front"); };
+    performMove["F'"] = [&]() { visualCounterClockWise("front"); };
+    performMove["F2"] = [&]() { visualClockWise("front"); visualClockWise("front"); };
 
     // D, D', D2
-    replace["D"] = [&]() { visualClockWise("down"); };
-    replace["D'"] = [&]() { visualCounterClockWise("down"); };
-    replace["D2"] = [&]() { visualClockWise("down"); visualClockWise("down"); };
+    performMove["D"] = [&]() { visualClockWise("down"); };
+    performMove["D'"] = [&]() { visualCounterClockWise("down"); };
+    performMove["D2"] = [&]() { visualClockWise("down"); visualClockWise("down"); };
 
     // B, B', B2
-    replace["B"] = [&]() { visualClockWise("back"); };
-    replace["B'"] = [&]() { visualCounterClockWise("back"); };
-    replace["B2"] = [&]() { visualClockWise("back"); visualClockWise("back"); };
+    performMove["B"] = [&]() { visualClockWise("back"); };
+    performMove["B'"] = [&]() { visualCounterClockWise("back"); };
+    performMove["B2"] = [&]() { visualClockWise("back"); visualClockWise("back"); };
 
     // U, U', U2
-    replace["U"] = [&]() { visualClockWise("up"); };
-    replace["U'"] = [&]() { visualCounterClockWise("up"); };
-    replace["U2"] = [&]() { visualClockWise("up"); visualClockWise("up"); };
+    performMove["U"] = [&]() { visualClockWise("up"); };
+    performMove["U'"] = [&]() { visualCounterClockWise("up"); };
+    performMove["U2"] = [&]() { visualClockWise("up"); visualClockWise("up"); };
 
     // R, R', R2
-    replace["R"] = [&]() { visualClockWise("right"); };
-    replace["R'"] = [&]() { visualCounterClockWise("right"); };
-    replace["R2"] = [&]() { visualClockWise("right"); visualClockWise("right"); };
+    performMove["R"] = [&]() { visualClockWise("right"); };
+    performMove["R'"] = [&]() { visualCounterClockWise("right"); };
+    performMove["R2"] = [&]() { visualClockWise("right"); visualClockWise("right"); };
 
     // L, L', L2
-    replace["L"] = [&]() { visualClockWise("left"); };
-    replace["L'"] = [&]() { visualCounterClockWise("left"); };
-    replace["L2"] = [&]() { visualClockWise("left"); visualClockWise("left"); };
+    performMove["L"] = [&]() { visualClockWise("left"); };
+    performMove["L'"] = [&]() { visualCounterClockWise("left"); };
+    performMove["L2"] = [&]() { visualClockWise("left"); visualClockWise("left"); };
 
     // M, M', M2
-    replace["M"] = [&]() { visualClockWise("M"); };
-    replace["M'"] = [&]() { visualCounterClockWise("M"); };
-    replace["M2"] = [&]() { visualClockWise("M"); visualClockWise("M"); };
+    performMove["M"] = [&]() { visualClockWise("M"); };
+    performMove["M'"] = [&]() { visualCounterClockWise("M"); };
+    performMove["M2"] = [&]() { visualClockWise("M"); visualClockWise("M"); };
 
     // E, E', E2
-    replace["E"] = [&]() { visualClockWise("E"); };
-    replace["E'"] = [&]() { visualCounterClockWise("E"); };
-    replace["E2"] = [&]() { visualClockWise("E"); visualClockWise("E"); };
+    performMove["E"] = [&]() { visualClockWise("E"); };
+    performMove["E'"] = [&]() { visualCounterClockWise("E"); };
+    performMove["E2"] = [&]() { visualClockWise("E"); visualClockWise("E"); };
 
     // S, S', S2
-    replace["S"] = [&]() { visualClockWise("S"); };
-    replace["S'"] = [&]() { visualCounterClockWise("S"); };
-    replace["S2"] = [&]() { visualClockWise("S"); visualClockWise("S"); };
+    performMove["S"] = [&]() { visualClockWise("S"); };
+    performMove["S'"] = [&]() { visualCounterClockWise("S"); };
+    performMove["S2"] = [&]() { visualClockWise("S"); visualClockWise("S"); };
 
     // u, u', u2
-    replace["u"] = [&]() { visualClockWise("u"); };
-    replace["u'"] = [&]() { visualCounterClockWise("u"); };
-    replace["u2"] = [&]() { visualClockWise("u"); visualClockWise("u"); };
+    performMove["u"] = [&]() { visualClockWise("u"); };
+    performMove["u'"] = [&]() { visualCounterClockWise("u"); };
+    performMove["u2"] = [&]() { visualClockWise("u"); visualClockWise("u"); };
 
     // f, f', f2
-    replace["f"] = [&]() { visualClockWise("f"); };
-    replace["f'"] = [&]() { visualCounterClockWise("f"); };
-    replace["f2"] = [&]() { visualClockWise("f"); visualClockWise("f"); };
+    performMove["f"] = [&]() { visualClockWise("f"); };
+    performMove["f'"] = [&]() { visualCounterClockWise("f"); };
+    performMove["f2"] = [&]() { visualClockWise("f"); visualClockWise("f"); };
 
     // d, d', d2
-    replace["d"] = [&]() { visualClockWise("d"); };
-    replace["d'"] = [&]() { visualCounterClockWise("d"); };
-    replace["d2"] = [&]() { visualClockWise("d"); visualClockWise("d"); };
+    performMove["d"] = [&]() { visualClockWise("d"); };
+    performMove["d'"] = [&]() { visualCounterClockWise("d"); };
+    performMove["d2"] = [&]() { visualClockWise("d"); visualClockWise("d"); };
 
     // b, b', b2
-    replace["b"] = [&]() { visualClockWise("b"); };
-    replace["b'"] = [&]() { visualCounterClockWise("b"); };
-    replace["b2"] = [&]() { visualClockWise("b"); visualClockWise("b"); };
+    performMove["b"] = [&]() { visualClockWise("b"); };
+    performMove["b'"] = [&]() { visualCounterClockWise("b"); };
+    performMove["b2"] = [&]() { visualClockWise("b"); visualClockWise("b"); };
 
     // r, r', r2
-    replace["r"] = [&]() { visualClockWise("r"); };
-    replace["r'"] = [&]() { visualCounterClockWise("r"); };
-    replace["r2"] = [&]() { visualClockWise("r"); visualClockWise("r"); };
+    performMove["r"] = [&]() { visualClockWise("r"); };
+    performMove["r'"] = [&]() { visualCounterClockWise("r"); };
+    performMove["r2"] = [&]() { visualClockWise("r"); visualClockWise("r"); };
 
     // l, l', l2
-    replace["l"] = [&]() { visualClockWise("l"); };
-    replace["l'"] = [&]() { visualCounterClockWise("l"); };
-    replace["l2"] = [&]() { visualClockWise("l"); visualClockWise("l"); };
+    performMove["l"] = [&]() { visualClockWise("l"); };
+    performMove["l'"] = [&]() { visualCounterClockWise("l"); };
+    performMove["l2"] = [&]() { visualClockWise("l"); visualClockWise("l"); };
 
     // x, x', x2
-    replace["x"] = [&]() { visualClockWise("x"); };
-    replace["x'"] = [&]() { visualCounterClockWise("x"); };
-    replace["x2"] = [&]() { visualClockWise("x"); visualClockWise("x"); };
+    performMove["x"] = [&]() { visualClockWise("x"); };
+    performMove["x'"] = [&]() { visualCounterClockWise("x"); };
+    performMove["x2"] = [&]() { visualClockWise("x"); visualClockWise("x"); };
 
     // y, y', y2
-    replace["y"] = [&]() { visualClockWise("y"); };
-    replace["y'"] = [&]() { visualCounterClockWise("y"); };
-    replace["y2"] = [&]() { visualClockWise("y"); visualClockWise("y"); };
+    performMove["y"] = [&]() { visualClockWise("y"); };
+    performMove["y'"] = [&]() { visualCounterClockWise("y"); };
+    performMove["y2"] = [&]() { visualClockWise("y"); visualClockWise("y"); };
 
     // z, z', z2
-    replace["z"] = [&]() { visualClockWise("z"); };
-    replace["z'"] = [&]() { visualCounterClockWise("z"); };
-    replace["z2"] = [&]() { visualClockWise("z"); visualClockWise("z"); };
+    performMove["z"] = [&]() { visualClockWise("z"); };
+    performMove["z'"] = [&]() { visualCounterClockWise("z"); };
+    performMove["z2"] = [&]() { visualClockWise("z"); visualClockWise("z"); };
     
     std::stringstream ss(solutionData);
     std::string move;
@@ -921,10 +921,10 @@ void ColorDetection::process(std::string solutionData)
 
     while (ss >> move) {
         // Validate the move
-        if (replace.find(move) != replace.end()) {
+        if (performMove.find(move) != performMove.end()) {
 
             // Execute the move
-            replace[move]();
+            performMove[move]();
 
             // Update the stickers after the move
             fillSolutionSticker(solutionFrame, faceCoordinates, state);
