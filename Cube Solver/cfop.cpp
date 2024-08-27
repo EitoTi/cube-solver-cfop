@@ -199,39 +199,43 @@ void CFOP::solveCross()
 
 void CFOP::searchCrossSolution()
 {
-    for (int i = 1; i <= 18; i++) { // There are 18 possible moves to check
+    for (int i = 1; i <= 18; i++) 
+    {   
+        // There are 18 possible moves to check
         turn(i); // Simulate making one move (based on the index 'i')
         crossArray[crossStep] = i; // Store the move index in the crossArray
-        if (isCrossFinish()) { // Check if the cross is complete
+        if (isCrossFinish()) 
+        { 
+            // Check if the cross is complete
             crossFinish = true;
-            crossData = getCrossString(crossArray); // Convert move indices to string 'crossData'
+            crossData += getCrossString(crossArray); // Convert move indices to string 'crossData'
         }
-        else if (crossStep < crossDepth) { // If not yet reached the allowed depth
+        else if (crossStep < crossDepth) 
+        { 
+            // If not yet reached the allowed depth
             crossStep++; // Go one level deeper
             searchCrossSolution(); // Recursively try more moves
         }
 
         // If cross isn't finished, undo the move and backtrack
-        if (!crossFinish) {
-            if (i > 12) {
+        if (!crossFinish) 
+        {
+            if (i > 12)
                 turn(i); // For moves 13-18, undo by repeating the move
-            }
-            else if (i < 7) {
+            else if (i < 7)
                 turn(i + 6); // For moves 1-6, undo by performing the opposite move
-            }
-            else {
+            else 
                 turn(i - 6); // For moves 7-12, undo by performing the opposite move
-            }
 
             // When reaching the end of the loop, reset this step and backtrack
-            if (i == 18) {
+            if (i == 18) 
+            {
                 crossArray[crossStep] = 0;
                 crossStep = crossStep > 0 ? crossStep - 1 : 0;
             }
         }
-        else {
+        else
             break; // Stop once the cross is solved
-        }
     }
 }
 

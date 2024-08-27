@@ -13,7 +13,7 @@ private:
 	bool crossFinish;
 
 	// Depth of recursive call stack used in DFS to find cross solution
-	int crossStep; 
+	int crossStep;
 
 	// Maximum depth before backtracking
 	int crossDepth;
