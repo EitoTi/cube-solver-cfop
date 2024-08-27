@@ -665,7 +665,7 @@ void ColorDetection::fillSolutionSticker(cv::Mat& img, std::map<std::string, std
     }
 }
 
-Color ColorDetection::mapScalarToColor(const cv::Scalar& color) 
+Color ColorDetection::mapScalarToColor(const cv::Scalar& color)
 {
     if (color == cv::Scalar(0, 255, 255)) return Yellow;
     if (color == cv::Scalar(255, 0, 0)) return Blue;
@@ -676,9 +676,9 @@ Color ColorDetection::mapScalarToColor(const cv::Scalar& color)
     return White; // default to White if no match
 }
 
-void ColorDetection::updateRubikCube(Rubik& rubikCube, const std::vector<cv::Scalar> faceColors[], int currentFace) 
+void ColorDetection::updateRubikCube(Rubik& rubikCube, const std::vector<cv::Scalar> faceColors[], int currentFace)
 {
-    for (int i = 0; i < currentFace; ++i) 
+    for (int i = 0; i < currentFace; ++i)
     {
         Face* face = nullptr;
 
@@ -691,7 +691,7 @@ void ColorDetection::updateRubikCube(Rubik& rubikCube, const std::vector<cv::Sca
         case 5: face = &rubikCube.getLeftFace(); break;
         }
 
-        if (face != nullptr) 
+        if (face != nullptr)
         {
             face->setCubieOne(mapScalarToColor(faceColors[i][2]));
             face->setCubieTwo(mapScalarToColor(faceColors[i][1]));
@@ -902,7 +902,7 @@ void ColorDetection::process(std::string solutionData)
     performMove["z"] = [&]() { visualClockWise("z"); };
     performMove["z'"] = [&]() { visualCounterClockWise("z"); };
     performMove["z2"] = [&]() { visualClockWise("z"); visualClockWise("z"); };
-    
+
     std::stringstream ss(solutionData);
     std::string move;
 

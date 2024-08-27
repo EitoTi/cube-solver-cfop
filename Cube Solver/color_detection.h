@@ -8,15 +8,15 @@ class ColorDetection
 private:
     Rubik rubikCube; // Rubik's Cube object
 
-	cv::VideoCapture cap;
-	cv::Mat img, imgFlip, imgHSV;
+    cv::VideoCapture cap;
+    cv::Mat img, imgFlip, imgHSV;
 
-	// frame to show output of color detection
-	cv::Mat previewFrame, solutionFrame;
+    // frame to show output of color detection
+    cv::Mat previewFrame, solutionFrame;
 
-	// Storage for the colors of each face
-	std::vector<cv::Scalar> faceColor[6];
-	int currentFace = 0;
+    // Storage for the colors of each face
+    std::vector<cv::Scalar> faceColor[6];
+    int currentFace = 0;
 
     /////////////////////////////////// Face Coordinates Map ///////////////////////////////////
 
@@ -150,7 +150,7 @@ private:
     };
 
 public:
-	ColorDetection();
+    ColorDetection();
 
     // Get state after real-time color detection
     std::map<std::string, std::vector<cv::Scalar>>& getState();
@@ -166,10 +166,10 @@ public:
     void visualCounterClockWise(const std::string);
 
     std::string colorDetect(int, int, int);
-    
+
     void drawSticker(cv::Mat&, const std::vector<std::vector<std::pair<int, int>>>&);
 
-    void drawPreviewSticker(cv::Mat&, const std::vector<std::vector<std::pair<int, int>>> [], const int&);
+    void drawPreviewSticker(cv::Mat&, const std::vector<std::vector<std::pair<int, int>>>[], const int&);
 
     // Fill sticker color on preview frame
     void fillSticker(cv::Mat&, const std::vector<std::vector<std::pair<int, int>>>&, int, const std::vector<cv::Scalar>&);
