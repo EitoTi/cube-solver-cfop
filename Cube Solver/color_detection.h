@@ -186,6 +186,6 @@ public:
     void run();
 
     // Display and update solution frame after each move
-    void process(std::string);
+    void visualSolver(std::string);
 };
 #endif // !_COLOR_DETECTION

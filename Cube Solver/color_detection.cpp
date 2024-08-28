@@ -802,14 +802,14 @@ void ColorDetection::run()
         // Press 'q' to exit loop and close windows
         if (key == 'q')
         {
-            /*cv::destroyWindow("frame");
-            cv::destroyWindow("Preview frame");*/
+            cv::destroyWindow("frame");
+            cv::destroyWindow("Preview frame");
             break;
         }
     }
 }
 
-void ColorDetection::process(std::string solutionData)
+void ColorDetection::visualSolver(std::string solutionData)
 {
     std::map<std::string, std::function<void()>> performMove;
 
