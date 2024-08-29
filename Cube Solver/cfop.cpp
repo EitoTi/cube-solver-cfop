@@ -29,6 +29,11 @@ CFOP::CFOP() : ColorDetection()
         {17, "F2"},
         {18, "B2"}
     };
+
+    // F2l
+    f2lIndex = 0;
+    f2lData = "";
+    f2lArray = std::vector<std::string>(4);
 }
 
 void CFOP::turn(const int& turn)
@@ -248,4 +253,354 @@ std::string CFOP::getCrossString(const std::vector<int>& crossArray)
         tmpCrossData += " ";
     }
     return tmpCrossData;
+}
+
+void CFOP::solveF2l()
+{
+
+}
+
+std::string CFOP::getF2lData() const
+{
+    return f2lData;
+}
+
+bool CFOP::f2lAlgo()
+{
+    // F2L 01, 02, 05, 06, 09, 10, 11, 15, 32, 33
+    if (this->getCube().getFrontFace().getCubieThree() == this->getCube().getDownFace().getCubieFive()
+        && this->getCube().getUpFace().getCubieNine() == this->getCube().getFrontFace().getCubieFive()
+        && this->getCube().getRightFace().getCubieOne() == this->getCube().getRightFace().getCubieFive())
+    {
+        if (upSixFrontRight()) // F2L 01
+        {
+            f2lArray[f2lIndex] += "U R U' R' ";
+            return true;
+        }
+        else if (upFourRightFront()) // F2L 02
+        {
+            f2lArray[f2lIndex] += "F' U' F ";
+            return true;
+        }
+        else if (upTwoFrontRight()) // F2L 05
+        {
+            f2lArray[f2lIndex] += "U' R U R' U2 R U' R' ";
+            return true;
+        }
+        else if (upFourFrontRight) // F2L 06
+        {
+            f2lArray[f2lIndex] += "U' R U2 R' U2 R U' R' ";
+            return true;
+        }
+        else if (upTwoRightFront()) // F2L 09
+        {
+            f2lArray[f2lIndex] += "F R U R' U' F' R U' R' ";
+            return true;
+        }
+        else if (upSixRightFront()) // F2L 10
+        {
+            f2lArray[f2lIndex] += "U' R U2 ' R' y' U R' U' R ";
+            return true;
+        }
+        else if (upEightRightFront()) // F2L 11
+        {
+            f2lArray[f2lIndex] += "d R' U R U' R' U' R ";
+            return true;
+        }
+        else if (upEightFrontRight()) // F2L 15
+        {
+            f2lArray[f2lIndex] += "U R' F R F' U R U R' ";
+            return true;
+        }
+        else if (frontSixFrontRight()) // F2L 32
+        {
+            f2lArray[f2lIndex] += "U' R U' R' U2 R U' R' ";
+            return true;
+        }
+        else if (frontSixRightFront()) // F2L 33
+        {
+            f2lArray[f2lIndex] += "U R U R' U2 R U R' ";
+            return true;
+        }
+    } // F2L 03, 04, 07, 08, 12, 13, 14, 17, 35, 36
+    else if (this->getCube().getFrontFace().getCubieThree() == this->getCube().getFrontFace().getCubieFive()
+         && this->getCube().getUpFace().getCubieNine() == this->getCube().getRightFace().getCubieFive()
+         && this->getCube().getRightFace().getCubieOne() == this->getCube().getDownFace().getCubieFive()) 
+    {
+         if (upEightRightFront()) // F2L 03
+         {
+            f2lArray[f2lIndex] += "F R' F' R ";
+            return true;
+         }
+         else if (upTwoFrontRight()) // F2L 04
+         {
+             f2lArray[f2lIndex] += "R U R' ";
+             return true;
+         }
+         else if (upFourRightFront()) // F2L 07
+         {
+             f2lArray[f2lIndex] += "U F' U' F U2 F' U F ";
+             return true;
+         }
+         else if (upTwoRightFront()) // F2L 08
+         {
+             f2lArray[f2lIndex] += "d R' U2 R U R' U2 R ";
+             return true;
+         }
+         else if (upFourFrontRight()) // F2L 12
+         {
+             f2lArray[f2lIndex] += "U' R U R' U R U R' ";
+             return true;
+         }
+         else if (upEightFrontRight()) // F2L 13
+         {
+             f2lArray[f2lIndex] += "R' U2 R2 U R2 U R ";
+             return true;
+         }
+         else if (upSixFrontRight()) // F2L 14
+         {
+             f2lArray[f2lIndex] += "U' R U' R' U R U R' ";
+             return true;
+         }
+         else if (upSixRightFront()) // F2L 17
+         {
+             f2lArray[f2lIndex] += "R U' R' U2 F' U' F ";
+             return true;
+         }
+         else if (frontSixFrontRight()) // F2L 35
+         {
+             f2lArray[f2lIndex] += "U R U R' U2 R U R' ";
+             return true;
+         }
+         else if (frontSixRightFront()) // F2L 36
+         {
+             f2lArray[f2lIndex] += "U F' U' F U' R U R' ";
+             return true;
+         }
+    } // F2L 16, 18, 19, 20, 21, 22, 23, 24, 31, 34
+    else if (this->getCube().getFrontFace().getCubieThree() == this->getCube().getRightFace().getCubieFive()
+         && this->getCube().getUpFace().getCubieNine() == this->getCube().getDownFace().getCubieFive()
+         && this->getCube().getRightFace().getCubieOne() == this->getCube().getFrontFace().getCubieFive())
+    {
+         if (upSixFrontRight()) // F2L 16
+         {
+             f2lArray[f2lIndex] += "R U2 R' U' R U R' ";
+             return true;
+         }
+         else if (upEightRightFront()) // F2L 18
+         {
+             f2lArray[f2lIndex] += "R' F R F' R U' R' U R U' R' ";
+             return true;
+         }
+         else if (upTwoFrontRight()) // F2L 19
+         {
+             f2lArray[f2lIndex] += "U R U2 R' U R U' R' ";
+             return true;
+         }
+         else if (upFourFrontRight()) // F2L 20
+         {
+             f2lArray[f2lIndex] += "U2 R U R' U R U' R' ";
+             return true;
+         }
+         else if (upFourRightFront()) // F2L 21
+         {
+             f2lArray[f2lIndex] += "U' R U' R2 F R F' R U' R' ";
+             return true;
+         }
+         else if (upTwoRightFront()) // F2L 22
+         {
+             f2lArray[f2lIndex] += "F' L' U2 L F ";
+             return true;
+         }
+         else if (upEightFrontRight()) // F2L 23
+         {
+             f2lArray[f2lIndex] += "U F R' F' R U R U R' ";
+             return true;
+         }
+         else if (upSixRightFront()) // F2L 24
+         {
+             f2lArray[f2lIndex] += "F U R U' R' F' R U' R' ";
+             return true;
+         }
+         else if (frontSixRightFront()) // F2L 31
+         {
+             f2lArray[f2lIndex] += "U' R' F R F' R U' R' ";
+             return true;
+         }
+         else if (frontSixFrontRight) // F2L 34
+         {
+             f2lArray[f2lIndex] += "R2 U R2 U R2 U2 R2 ";
+             return true;
+         }
+    } // F2L 25 28 39
+    else if (this->getCube().getFrontFace().getCubieNine() == this->getCube().getFrontFace().getCubieFive()
+         && this->getCube().getRightFace().getCubieSeven() == this->getCube().getRightFace().getCubieFive()
+         && this->getCube().getDownFace().getCubieThree() == this->getCube().getDownFace().getCubieFive())
+    {
+         if (upSixFrontRight()) // F2L 25
+         {
+             f2lArray[f2lIndex] += "U' R' F R F' R U R' ";
+             return true;
+         }
+         else if (upEightFrontRight()) // F2L 28
+         {
+             f2lArray[f2lIndex] += "U R U' R' F R' F' R ";
+             return true;
+         }
+         else if (frontSixRightFront()) // F2L 39
+         {
+             f2lArray[f2lIndex] += "R2 U2 F R2 F' U2 R' U R' ";
+             return true;
+         }
+    } // F2L 26 27 37 38 
+    else if (this->getCube().getFrontFace().getCubieNine() == this->getCube().getDownFace().getCubieFive()
+         && this->getCube().getRightFace().getCubieSeven() == this->getCube().getFrontFace().getCubieFive()
+         && this->getCube().getDownFace().getCubieThree() == this->getCube().getRightFace().getCubieFive())
+    {
+         if (upSixFrontRight()) // F2L 26
+         {
+             f2lArray[f2lIndex] += "R U' R' U R U' R' ";
+             return true;
+         }
+         else if (upEightRightFront()) // F2L 27
+         {
+             f2lArray[f2lIndex] += "R' F R F' U R U' R' ";
+             return true;
+         }
+         else if (frontSixFrontRight()) // F2L 37
+         {
+             f2lArray[f2lIndex] += "R U' R' U' R U R' U2 R U' R' ";
+             return true;
+         }
+         else if (frontSixRightFront()) // F2L 38
+         {
+             f2lArray[f2lIndex] += "F' L' U2 L F R U R' ";
+             return true;
+         }
+    } // F2L 29 30 40 41
+    else if (this->getCube().getFrontFace().getCubieNine() == this->getCube().getRightFace().getCubieFive()
+         && this->getCube().getDownFace().getCubieThree() == this->getCube().getFrontFace().getCubieFive()
+         && this->getCube().getRightFace().getCubieSeven() == this->getCube().getDownFace().getCubieFive())
+    {
+         if (upEightRightFront()) // F2L 29
+         {
+             f2lArray[f2lIndex] += "F' U F U' F' U F ";
+             return true;
+         }
+         else if (upSixFrontRight()) // F2L 30
+         {
+             f2lArray[f2lIndex] += "R U R' U' R U R' ";
+             return true;
+         }
+         else if (frontSixFrontRight()) // F2L 40
+         {
+             f2lArray[f2lIndex] += "R U2 R U R' U R U2 R2 ";
+             return true;
+         }
+         else if (frontSixRightFront()) // F2L 41
+         {
+             f2lArray[f2lIndex] += "R U' R' F' L' U2 L F ";
+             return true;
+         }
+    }
+}
+
+bool CFOP::isF2lPairFinish()
+{
+    return this->getCube().getFrontFace().getCubieNine() == this->getCube().getFrontFace().getCubieFive()
+        && this->getCube().getDownFace().getCubieThree() == this->getCube().getDownFace().getCubieFive()
+        && this->getCube().getRightFace().getCubieSeven() == this->getCube().getRightFace().getCubieFive()
+        && this->getCube().getFrontFace().getCubieSix() == this->getCube().getFrontFace().getCubieFive()
+        && this->getCube().getRightFace().getCubieFour() == this->getCube().getRightFace().getCubieFive();
+}
+
+// Up face edge position
+bool CFOP::upTwoFrontRight()
+{
+    return this->getCube().getUpFace().getCubieTwo() == this->getCube().getFrontFace().getCubieFive()
+        && this->getCube().getBackFace().getCubieEight() == this->getCube().getRightFace().getCubieFive();
+}
+bool CFOP::upTwoRightFront()
+{
+    return this->getCube().getUpFace().getCubieTwo() == this->getCube().getRightFace().getCubieFive()
+        && this->getCube().getBackFace().getCubieEight() == this->getCube().getFrontFace().getCubieFive();
+}
+
+bool CFOP::upFourFrontRight()
+{
+    return this->getCube().getUpFace().getCubieFour() == this->getCube().getFrontFace().getCubieFive()
+        && this->getCube().getLeftFace().getCubieTwo() == this->getCube().getRightFace().getCubieFive();
+}
+bool CFOP::upFourRightFront()
+{
+    return this->getCube().getUpFace().getCubieFour() == this->getCube().getRightFace().getCubieFive()
+        && this->getCube().getLeftFace().getCubieTwo() == this->getCube().getFrontFace().getCubieFive();
+}
+
+bool CFOP::upSixFrontRight()
+{
+    return this->getCube().getUpFace().getCubieSix() == this->getCube().getFrontFace().getCubieFive()
+        && this->getCube().getRightFace().getCubieTwo() == this->getCube().getRightFace().getCubieFive();
+}
+bool CFOP::upSixRightFront()
+{
+    return this->getCube().getUpFace().getCubieSix() == this->getCube().getRightFace().getCubieFive()
+        && this->getCube().getRightFace().getCubieTwo() == this->getCube().getFrontFace().getCubieFive();
+}
+
+bool CFOP::upEightFrontRight()
+{
+    return this->getCube().getUpFace().getCubieEight() == this->getCube().getFrontFace().getCubieFive()
+        && this->getCube().getFrontFace().getCubieTwo() == this->getCube().getRightFace().getCubieFive();
+}
+bool CFOP::upEightRightFront()
+{
+    return this->getCube().getUpFace().getCubieEight() == this->getCube().getRightFace().getCubieFive()
+        && this->getCube().getFrontFace().getCubieTwo() == this->getCube().getFrontFace().getCubieFive();
+}
+
+// Front face edge position
+bool CFOP::frontFourFrontRight()
+{
+    return this->getCube().getFrontFace().getCubieFour() == this->getCube().getFrontFace().getCubieFive()
+        && this->getCube().getLeftFace().getCubieSix() == this->getCube().getRightFace().getCubieFive();
+}
+bool CFOP::frontFourRightFront()
+{
+    return this->getCube().getFrontFace().getCubieFour() == this->getCube().getRightFace().getCubieFive()
+        && this->getCube().getLeftFace().getCubieSix() == this->getCube().getFrontFace().getCubieFive();
+}
+
+bool CFOP::frontSixFrontRight()
+{
+    return this->getCube().getFrontFace().getCubieSix() == this->getCube().getFrontFace().getCubieFive()
+        && this->getCube().getRightFace().getCubieFour() == this->getCube().getRightFace().getCubieFive();
+}
+bool CFOP::frontSixRightFront()
+{
+    return this->getCube().getFrontFace().getCubieSix() == this->getCube().getRightFace().getCubieFive()
+        && this->getCube().getRightFace().getCubieFour() == this->getCube().getFrontFace().getCubieFive();
+}
+
+// Back face edge position
+bool CFOP::backFourFrontRight()
+{
+    return this->getCube().getBackFace().getCubieFour() == this->getCube().getFrontFace().getCubieFive()
+        && this->getCube().getLeftFace().getCubieFour() == this->getCube().getRightFace().getCubieFive();
+}
+bool CFOP::backFourRightFront()
+{
+    return this->getCube().getBackFace().getCubieFour() == this->getCube().getRightFace().getCubieFive()
+        && this->getCube().getLeftFace().getCubieFour() == this->getCube().getFrontFace().getCubieFive();
+}
+
+bool CFOP::backSixFrontRight()
+{
+    return this->getCube().getBackFace().getCubieSix() == this->getCube().getFrontFace().getCubieFive()
+        && this->getCube().getRightFace().getCubieSix() == this->getCube().getRightFace().getCubieFive();
+}
+bool CFOP::backSixRightFront()
+{
+    return this->getCube().getBackFace().getCubieSix() == this->getCube().getRightFace().getCubieFive()
+        && this->getCube().getRightFace().getCubieSix() == this->getCube().getFrontFace().getCubieFive();
 }
