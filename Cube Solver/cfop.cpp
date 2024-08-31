@@ -4,12 +4,7 @@ CFOP::CFOP() : ColorDetection()
 {
 	this->run();
 
-    // Cross
-    crossData = "";
-    crossArray = std::vector<int>(8);
-    crossDepth = crossStep = 0;
-    crossFinish = false;
-    mpCrossMove = {
+    mpMove = {
         {1, "R"},
         {2, "L"},
         {3, "U"},
@@ -27,13 +22,44 @@ CFOP::CFOP() : ColorDetection()
         {15, "U2"},
         {16, "D2"},
         {17, "F2"},
-        {18, "B2"}
+        {18, "B2"},
+        {19, "r"},
+        {20, "l"},
+        {21, "u"},
+        {22, "d"},
+        {23, "f"},
+        {24, "b"},
+        {25, "r'"},
+        {26, "l'"},
+        {27, "u'"},
+        {28, "d'"},
+        {29, "f'"},
+        {30, "b'"},
+        {31, "M"},
+        {32, "E"},
+        {33, "S"},
+        {34, "x"},
+        {35, "y"},
+        {36, "z"},
+        {37, "M'"},
+        {38, "E'"},
+        {39, "S'"},
+        {40, "x'"},
+        {41, "y'"},
+        {42, "z'"}
     };
+
+    // Cross
+    crossData = "";
+    crossArray = std::vector<int>(8);
+    crossDepth = crossStep = 0;
+    crossFinish = false;
 
     // F2l
     f2lIndex = 0;
     f2lData = "";
-    f2lArray = std::vector<std::string>(4);
+    f2lArray = std::vector<std::string>(4, "");
+    canUpdateF2l = false;
 }
 
 void CFOP::turn(const int& turn)
@@ -249,7 +275,7 @@ std::string CFOP::getCrossString(const std::vector<int>& crossArray)
     std::string tmpCrossData = "";
     for (auto index : crossArray)
     {
-        tmpCrossData += mpCrossMove[index];
+        tmpCrossData += mpMove[index];
         tmpCrossData += " ";
     }
     return tmpCrossData;
@@ -257,12 +283,63 @@ std::string CFOP::getCrossString(const std::vector<int>& crossArray)
 
 void CFOP::solveF2l()
 {
+    while (f2lIndex < 4)
+    {
+        if (!isF2lPairFinish())
+        {
+            if (!f2lAlgo())
+            {
+                // Move pair of corner and edge to match 41 f2l algo
+                handleSpecialF2l();
 
+                // Apply the move to create f2l cases in 41 f2l 
+                applyF2lPairSolution(f2lArray[f2lIndex]);
+
+                // Update f2lData
+                f2lData += f2lArray[f2lIndex];
+                f2lArray[f2lIndex].clear();
+
+                // When pair of f2l is match
+                // 41 f2l algo will work fine
+                f2lAlgo();
+            }
+            // Add y' when an f2l pair is finished
+            if(f2lIndex < 3)
+                f2lArray[f2lIndex] += "y' ";
+
+            applyF2lPairSolution(f2lArray[f2lIndex]);
+
+            // Update f2lData
+            f2lData += f2lArray[f2lIndex];
+        }
+        else
+        {
+            // Add y' when an f2l pair is finished
+            if(f2lIndex < 3)
+                f2lArray[f2lIndex] += "y' ";
+            applyF2lPairSolution(f2lArray[f2lIndex]);
+        }
+        f2lIndex++;
+    }
 }
 
-std::string CFOP::getF2lData() const
+std::string CFOP::getF2lData()
 {
     return f2lData;
+}
+
+void CFOP::applyF2lPairSolution(const std::string& f2lSol)
+{
+    std::stringstream ss(f2lSol);
+    std::string move;
+    while (ss >> move)
+    {
+        for (const auto& val : mpMove)
+        {
+            if (val.second == move)
+                turn(val.first);
+        }
+    }
 }
 
 bool CFOP::f2lAlgo()
@@ -287,7 +364,7 @@ bool CFOP::f2lAlgo()
             f2lArray[f2lIndex] += "U' R U R' U2 R U' R' ";
             return true;
         }
-        else if (upFourFrontRight) // F2L 06
+        else if (upFourFrontRight()) // F2L 06
         {
             f2lArray[f2lIndex] += "U' R U2 R' U2 R U' R' ";
             return true;
@@ -299,12 +376,12 @@ bool CFOP::f2lAlgo()
         }
         else if (upSixRightFront()) // F2L 10
         {
-            f2lArray[f2lIndex] += "U' R U2 ' R' y' U R' U' R ";
+            f2lArray[f2lIndex] += "U' R U2 R' y' U R' U' R ";
             return true;
         }
         else if (upEightRightFront()) // F2L 11
         {
-            f2lArray[f2lIndex] += "d R' U R U' R' U' R ";
+            f2lArray[f2lIndex] += "d R' U R U' R' U' R d' ";
             return true;
         }
         else if (upEightFrontRight()) // F2L 15
@@ -344,7 +421,7 @@ bool CFOP::f2lAlgo()
          }
          else if (upTwoRightFront()) // F2L 08
          {
-             f2lArray[f2lIndex] += "d R' U2 R U R' U2 R ";
+             f2lArray[f2lIndex] += "d R' U2 R U R' U2 R d' ";
              return true;
          }
          else if (upFourFrontRight()) // F2L 12
@@ -414,7 +491,7 @@ bool CFOP::f2lAlgo()
          }
          else if (upEightFrontRight()) // F2L 23
          {
-             f2lArray[f2lIndex] += "U F R' F' R U R U R' ";
+             f2lArray[f2lIndex] += "U' R U R' d R' U' R d' ";
              return true;
          }
          else if (upSixRightFront()) // F2L 24
@@ -427,7 +504,7 @@ bool CFOP::f2lAlgo()
              f2lArray[f2lIndex] += "U' R' F R F' R U' R' ";
              return true;
          }
-         else if (frontSixFrontRight) // F2L 34
+         else if (frontSixFrontRight()) // F2L 34
          {
              f2lArray[f2lIndex] += "R2 U R2 U R2 U2 R2 ";
              return true;
@@ -503,6 +580,7 @@ bool CFOP::f2lAlgo()
              return true;
          }
     }
+    return false;
 }
 
 bool CFOP::isF2lPairFinish()
@@ -512,6 +590,153 @@ bool CFOP::isF2lPairFinish()
         && this->getCube().getRightFace().getCubieSeven() == this->getCube().getRightFace().getCubieFive()
         && this->getCube().getFrontFace().getCubieSix() == this->getCube().getFrontFace().getCubieFive()
         && this->getCube().getRightFace().getCubieFour() == this->getCube().getRightFace().getCubieFive();
+}
+
+/*
+    Handle cases when 41 f2l don't match
+*/
+void CFOP::handleSpecialF2l()
+{
+    // Cases when corner is in the front right-bottom
+    if (isCornerCorrect(this->getCube().getFrontFace().getCubieNine(), this->getCube().getDownFace().getCubieThree(), this->getCube().getRightFace().getCubieSeven()))
+    {
+        // Move edge to match 41 f2l
+        if (frontFourFrontRight())
+            f2lArray[f2lIndex] += "L' U2 L "; 
+        else if (frontFourRightFront())
+            f2lArray[f2lIndex] += "L' U' L "; 
+        else if (backFourFrontRight())
+            f2lArray[f2lIndex] += "L U2 L' "; 
+        else if (backFourRightFront())
+            f2lArray[f2lIndex] += "L U' L' "; 
+        else if (backSixFrontRight())
+            f2lArray[f2lIndex] += "R' U R U' ";
+        else if (backSixRightFront())
+            f2lArray[f2lIndex] += "R' U R "; 
+        else if (upTwoFrontRight() || upSixRightFront())
+            f2lArray[f2lIndex] += "U ";
+        else if (upTwoRightFront() || upFourFrontRight())
+            f2lArray[f2lIndex] += "U2 ";
+        else if (upFourRightFront() || upEightFrontRight())
+            f2lArray[f2lIndex] += "U' ";
+    } 
+    // Case when corner is in the front left-bottom
+    else if (isCornerCorrect(this->getCube().getFrontFace().getCubieSeven(), this->getCube().getLeftFace().getCubieNine(), this->getCube().getDownFace().getCubieOne()))
+    {   
+        // Move f2l pair to match 41 f2l
+        if (isEdgeCorrect(this->getCube().getFrontFace().getCubieFour(), this->getCube().getLeftFace().getCubieSix()))
+            f2lArray[f2lIndex] += "L' U' L ";
+        else if (isEdgeCorrect(this->getCube().getLeftFace().getCubieFour(), this->getCube().getBackFace().getCubieFour()))
+            f2lArray[f2lIndex] += "L U' L2 U' L ";
+        else if (isEdgeCorrect(this->getCube().getRightFace().getCubieSix(), this->getCube().getBackFace().getCubieSix()))
+            f2lArray[f2lIndex] += "L' U' L R' U R ";
+        else if (isEdgeCorrect(this->getCube().getUpFace().getCubieTwo(), this->getCube().getBackFace().getCubieEight()))
+            f2lArray[f2lIndex] += "U L' U' L ";
+        else
+            f2lArray[f2lIndex] += "L' U' L ";
+    }
+    // Case when corner is in the back left-bottom
+    else if (isCornerCorrect(this->getCube().getLeftFace().getCubieSeven(), this->getCube().getDownFace().getCubieSeven(), this->getCube().getBackFace().getCubieOne()))
+    {
+        // Move f2l pair to match 41 f2l
+        if (isEdgeCorrect(this->getCube().getFrontFace().getCubieFour(), this->getCube().getLeftFace().getCubieSix()))
+            f2lArray[f2lIndex] += "L' U L2 U2 L' ";
+        else if (isEdgeCorrect(this->getCube().getLeftFace().getCubieFour(), this->getCube().getBackFace().getCubieFour()))
+            f2lArray[f2lIndex] += "L U2 L' ";
+        else if (isEdgeCorrect(this->getCube().getRightFace().getCubieSix(), this->getCube().getBackFace().getCubieSix()))
+            f2lArray[f2lIndex] += "L U2 L' R' U R ";
+        else if (isEdgeCorrect(this->getCube().getUpFace().getCubieSix(), this->getCube().getRightFace().getCubieTwo()))
+            f2lArray[f2lIndex] += "L U' L' U2 ";
+        /*else if (isEdgeCorrect(this->getCube().getFrontFace().getCubieSix(), this->getCube().getRightFace().getCubieFour())
+            || isEdgeCorrect(this->getCube().getUpFace().getCubieEight(), this->getCube().getFrontFace().getCubieTwo())
+            || isEdgeCorrect(this->getCube().getUpFace().getCubieFour(), this->getCube().getLeftFace().getCubieTwo())
+            || isEdgeCorrect(this->getCube().getUpFace().getCubieTwo(), this->getCube().getBackFace().getCubieEight()))
+            f2lArray[f2lIndex] += "L U2 L' ";*/
+        // 
+        // --> Replace with else
+        else
+            f2lArray[f2lIndex] += "L U2 L' ";
+    }
+    // Case when corner is in the back right-bottom
+    else if (isCornerCorrect(this->getCube().getRightFace().getCubieNine(), this->getCube().getDownFace().getCubieNine(), this->getCube().getBackFace().getCubieThree()))
+    {
+        // Move f2l pair to match 41 f2l
+        if (isEdgeCorrect(this->getCube().getUpFace().getCubieTwo(), this->getCube().getBackFace().getCubieEight()))
+            f2lArray[f2lIndex] += "R' U2 R U' ";
+        else if (isEdgeCorrect(this->getCube().getFrontFace().getCubieFour(), this->getCube().getLeftFace().getCubieSix()))
+            f2lArray[f2lIndex] += "R' U2 R L' U2 L ";
+        else if (isEdgeCorrect(this->getCube().getLeftFace().getCubieFour(), this->getCube().getBackFace().getCubieFour()))
+            f2lArray[f2lIndex] += "L U' L' R' U R' U ";
+        else if (isEdgeCorrect(this->getCube().getBackFace().getCubieSix(), this->getCube().getRightFace().getCubieSix()))
+            f2lArray[f2lIndex] += "R' U R U ";
+        else
+            f2lArray[f2lIndex] += "R' U R U ";
+    }
+    // Case when corner is on the upper layer 
+    else if (isCornerCorrect(this->getCube().getUpFace().getCubieSeven(), this->getCube().getFrontFace().getCubieOne(), this->getCube().getLeftFace().getCubieThree()))
+    {
+        if (isEdgeCorrect(this->getCube().getFrontFace().getCubieFour(), this->getCube().getLeftFace().getCubieSix()))
+            f2lArray[f2lIndex] += "L' U2 L ";
+        else if (isEdgeCorrect(this->getCube().getLeftFace().getCubieFour(), this->getCube().getBackFace().getCubieFour()))
+            f2lArray[f2lIndex] += "L U' L' U' ";
+        else if (isEdgeCorrect(this->getCube().getRightFace().getCubieSix(), this->getCube().getBackFace().getCubieSix()))
+            f2lArray[f2lIndex] += "R' U R U2 ";
+        else
+            f2lArray[f2lIndex] += "U' ";
+    }
+    else if (isCornerCorrect(this->getCube().getUpFace().getCubieOne(), this->getCube().getLeftFace().getCubieOne(), this->getCube().getBackFace().getCubieSeven()))
+    {
+        if (isEdgeCorrect(this->getCube().getFrontFace().getCubieFour(), this->getCube().getLeftFace().getCubieSix()))
+            f2lArray[f2lIndex] += "L' U  L U2 ";
+        else if (isEdgeCorrect(this->getCube().getLeftFace().getCubieFour(), this->getCube().getBackFace().getCubieFour()))
+            f2lArray[f2lIndex] += "L U' L' ";
+        else if (isEdgeCorrect(this->getCube().getRightFace().getCubieSix(), this->getCube().getBackFace().getCubieSix()))
+            f2lArray[f2lIndex] += "R' U' R U' ";
+        else
+            f2lArray[f2lIndex] += "U2 ";
+    }
+    else if (isCornerCorrect(this->getCube().getUpFace().getCubieThree(), this->getCube().getRightFace().getCubieThree(), this->getCube().getBackFace().getCubieNine()))
+    {
+        if (isEdgeCorrect(this->getCube().getFrontFace().getCubieFour(), this->getCube().getLeftFace().getCubieSix()))
+            f2lArray[f2lIndex] += "L' U  L ";
+        else if (isEdgeCorrect(this->getCube().getLeftFace().getCubieFour(), this->getCube().getBackFace().getCubieFour()))
+            f2lArray[f2lIndex] += "L U L' ";
+        else if (isEdgeCorrect(this->getCube().getRightFace().getCubieSix(), this->getCube().getBackFace().getCubieSix()))
+            f2lArray[f2lIndex] += "R' U' R U' ";
+        else
+            f2lArray[f2lIndex] += "U ";
+    }
+    else if (isCornerCorrect(this->getCube().getUpFace().getCubieNine(), this->getCube().getFrontFace().getCubieThree(), this->getCube().getRightFace().getCubieOne()))
+    {
+        if (isEdgeCorrect(this->getCube().getFrontFace().getCubieFour(), this->getCube().getLeftFace().getCubieSix()))
+            f2lArray[f2lIndex] += "L' U' L U ";
+        else if (isEdgeCorrect(this->getCube().getLeftFace().getCubieFour(), this->getCube().getBackFace().getCubieFour()))
+            f2lArray[f2lIndex] += "L U L' U2 ";
+        else if (isEdgeCorrect(this->getCube().getRightFace().getCubieSix(), this->getCube().getBackFace().getCubieSix()))
+            f2lArray[f2lIndex] += "R' U R ";
+    }
+}
+
+// Handle multiple cases of corner vairations
+const bool CFOP::isCornerCorrect(const Color& colorCubieOne, const Color& colorCubieTwo, const Color& colorCubieThree)
+{
+    const Color frontCenterColor = this->getCube().getFrontFace().getCubieFive();
+    const Color rightCenterColor = this->getCube().getRightFace().getCubieFive();
+    const Color downCenterColor = this->getCube().getDownFace().getCubieFive();
+
+    return ((colorCubieOne == frontCenterColor) || (colorCubieOne == rightCenterColor) || (colorCubieOne == downCenterColor))
+        && ((colorCubieTwo == frontCenterColor) || (colorCubieTwo == rightCenterColor) || (colorCubieTwo == downCenterColor))
+        && ((colorCubieThree == frontCenterColor) || (colorCubieThree == rightCenterColor) || (colorCubieThree == downCenterColor));
+}
+
+// Handle 2 cases of edge
+const bool CFOP::isEdgeCorrect(const Color& colorCubieOne, const Color& colorCubieTwo)
+{
+    const Color frontCenterColor = this->getCube().getFrontFace().getCubieFive();
+    const Color rightCenterColor = this->getCube().getRightFace().getCubieFive();
+
+    return ((colorCubieOne == frontCenterColor) || (colorCubieOne == rightCenterColor))
+        && ((colorCubieTwo == frontCenterColor) || (colorCubieTwo == rightCenterColor));
 }
 
 // Up face edge position
