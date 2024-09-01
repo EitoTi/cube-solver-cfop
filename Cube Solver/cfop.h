@@ -121,13 +121,13 @@ public:
 	std::string getOllData() const;
 
 	// Check for cubie to support OLL finding
-	bool checkYellowCubie(const Color&, const Color&, const Color&, const Color&, const Color&, const Color&, const Color&, const Color&);
+	bool checkUpLayerCubie(const Color&, const Color&, const Color&, const Color&, const Color&, const Color&, const Color&, const Color&);
 	
 	// Find an Oll -> true
 	bool handleOLL();
 
 	// Check whether up face is finished
-	bool isUpFaceFinish();
+	bool isUpFaceFinish(const Face&);
 
 	// Apply OLL solution into rubik
 	void applyOllSolution(const std::string&);
@@ -146,6 +146,10 @@ public:
 	void applyPllSolution(const std::string&);
 
 	bool handlePll();
+
+	bool twoColorEqual(const Color&, const Color&, const Color&);
+	bool threeColorEqual(const Color&, const Color&, const Color&);
+	bool threeColorNotEqual(const Color&, const Color&, const Color&);
 
 	/////////////////////////////////////////////////
 }; 
