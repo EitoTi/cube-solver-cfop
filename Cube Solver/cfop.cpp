@@ -66,6 +66,7 @@ CFOP::CFOP() : ColorDetection()
 
     // PLL
     pllData = "";
+    pllString = "";
 }
 
 void CFOP::turn(const int& turn)
@@ -862,7 +863,6 @@ void CFOP::solveOLL()
             }
             else
             {
-                std::cout << std::endl << "oll data: " << ollData << std::endl;
                 ollData += ollString;
                 applyOllSolution(ollString);
                 break;
@@ -1041,7 +1041,7 @@ bool CFOP::handleOLL()
     }
     else if (checkYellowCubie(f2, r2, l2, b8, u1, u3, u7, u9)) // OLL 20
     {
-        ollString += "r U R' U' M2 U R U' R' U' M' ";
+        ollString += "r U R' U' M M U R U' R' U' M' ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, r2, l1, b9, u2, u4, u9)) // OLL 9
@@ -1136,12 +1136,12 @@ bool CFOP::handleOLL()
     }
     else if (checkYellowCubie(f2, f3, l1, l2, l3, b9, u2, u6)) // OLL 49
     {
-        ollData += "r U' r2 U r2 U r2 U' r ";
+        ollData += "r U' r r U r r U r r U' r ";
         return true;
     }
     else if (checkYellowCubie(f3, l1, l2, l3, b8, b9, u6, u8)) // OLL 50
     {
-        ollString += "r' U r2 U' r2 U' r2 U r' ";
+        ollString += "r' U r r U' r r U' r r U r' ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, f3, l2, b7, b9, u2, u6)) // OLL 53
@@ -1242,7 +1242,7 @@ void CFOP::solvePll()
 {
     if (!isLastLayerFinish())
     {
-        for (int i = 0; i < 4; ++i)
+        for (int i = 0; i < 4; ++i) // 4 times rotation to find accurate OLL case
         {
             if (!handlePll())
             {
@@ -1251,9 +1251,29 @@ void CFOP::solvePll()
             }
             else
             {
-                
+                pllData += pllString;
+                applyPllSolution(pllString);
+                break;
             }
         }
+    }
+
+    // Finish cube when pll is done
+    if (this->getCube().getFrontFace().getCubieFive() == this->getCube().getRightFace().getCubieOne())
+    {
+        pllData += " U ";
+        this->getCube().U();
+    }
+    else if (this->getCube().getFrontFace().getCubieFive() == this->getCube().getLeftFace().getCubieOne())
+    {
+        pllData += " U' ";
+        this->getCube().U_p();
+    }
+    else if (this->getCube().getFrontFace().getCubieFive() == this->getCube().getBackFace().getCubieSeven())
+    {
+        pllData += " U2 ";
+        this->getCube().U();
+        this->getCube().U();
     }
 }
 
@@ -1310,5 +1330,31 @@ void CFOP::applyPllSolution(const std::string& pllSolution)
 
 bool CFOP::handlePll()
 {
+    // Front layer
+    Color f1 = this->getCube().getFrontFace().getCubieOne();
+    Color f2 = this->getCube().getFrontFace().getCubieTwo();
+    Color f3 = this->getCube().getFrontFace().getCubieThree();
+    Color f5 = this->getCube().getFrontFace().getCubieFive();
+
+    // Right face
+    Color r1 = this->getCube().getRightFace().getCubieOne();
+    Color r2 = this->getCube().getRightFace().getCubieTwo();
+    Color r3 = this->getCube().getRightFace().getCubieThree();
+    Color r5 = this->getCube().getRightFace().getCubieFive();
+
+    // Left face
+    Color l1 = this->getCube().getLeftFace().getCubieOne();
+    Color l2 = this->getCube().getLeftFace().getCubieTwo();
+    Color l3 = this->getCube().getLeftFace().getCubieThree();
+    Color l5 = this->getCube().getLeftFace().getCubieFive();
+
+    // Back face
+    Color b7 = this->getCube().getBackFace().getCubieSeven();
+    Color b8 = this->getCube().getBackFace().getCubieEight();
+    Color b9 = this->getCube().getBackFace().getCubieNine();
+    Color b5 = this->getCube().getBackFace().getCubieFive();
+
+
+
     return false;
 }

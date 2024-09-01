@@ -38,6 +38,7 @@ private:
 		PLL
 	*/
 	std::string pllData;
+	std::string pllString;
 public:
 	CFOP();
 
