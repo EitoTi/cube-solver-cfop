@@ -27,7 +27,11 @@ private:
 	std::string f2lData;
 	int f2lIndex;
 	std::vector<std::string> f2lArray;
-	bool canUpdateF2l;
+
+	/*
+		OLL
+	*/
+	std::string ollData;
 public:
 	CFOP();
 
@@ -50,7 +54,6 @@ public:
 	/////////////////// F2L Handle ///////////////////////
 	void solveF2l();
 	std::string getF2lData();
-	std::string getF2lString() const;
 
 	// Apply each pair of f2l solution to Rubik's Cube
 	void applyF2lPairSolution(const std::string&);
@@ -99,5 +102,29 @@ public:
 
 	bool backSixFrontRight();
 	bool backSixRightFront();
+
+	//////////////////////////////////////////////////
+
+
+
+	//////////////////// OLL /////////////////////////
+
+	void solveOLL();
+
+	std::string getOllData() const;
+
+	// Check for cubie to support OLL finding
+	bool checkYellowCubie(const Color&, const Color&, const Color&, const Color&, const Color&, const Color&, const Color&, const Color&);
+	
+	// Find an Oll -> true
+	bool handleOLL();
+
+	// Check whether up face is finished
+	bool isUpFaceFinish();
+
+	// Apply OLL solution into rubik
+	void applyOllSolution(const std::string&);
+
+	//////////////////////////////////////////////////
 }; 
 #endif // !_CFOP
