@@ -31,7 +31,13 @@ private:
 	/*
 		OLL
 	*/
+	std::string ollString;
 	std::string ollData;
+
+	/*
+		PLL
+	*/
+	std::string pllData;
 public:
 	CFOP();
 
@@ -126,5 +132,20 @@ public:
 	void applyOllSolution(const std::string&);
 
 	//////////////////////////////////////////////////
+
+
+	////////////////////// PLL ///////////////////////
+
+	void solvePll();
+
+	std::string getPllData() const;
+
+	bool isLastLayerFinish();
+
+	void applyPllSolution(const std::string&);
+
+	bool handlePll();
+
+	/////////////////////////////////////////////////
 }; 
 #endif // !_CFOP

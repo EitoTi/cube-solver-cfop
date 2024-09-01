@@ -62,6 +62,10 @@ CFOP::CFOP() : ColorDetection()
 
     // OLL
     ollData = "";
+    ollString = "";
+
+    // PLL
+    pllData = "";
 }
 
 void CFOP::turn(const int& turn)
@@ -314,8 +318,7 @@ void CFOP::solveF2l()
                 f2lAlgo();
             }
             // Add y' when an f2l pair is finished
-            if(f2lIndex < 3)
-                f2lArray[f2lIndex] += "y' ";
+            f2lArray[f2lIndex] += "y' ";
 
             applyF2lPairSolution(f2lArray[f2lIndex]);
 
@@ -325,9 +328,11 @@ void CFOP::solveF2l()
         else
         {
             // Add y' when an f2l pair is finished
-            if(f2lIndex < 3)
-                f2lArray[f2lIndex] += "y' ";
+            f2lArray[f2lIndex] += "y' ";
             applyF2lPairSolution(f2lArray[f2lIndex]);
+
+            // Update f2lData
+            f2lData += f2lArray[f2lIndex];
         }
         f2lIndex++;
     }
@@ -386,7 +391,7 @@ bool CFOP::f2lAlgo()
         }
         else if (upSixRightFront()) // F2L 10
         {
-            f2lArray[f2lIndex] += "U' R U2 R' y' U R' U' R ";
+            f2lArray[f2lIndex] += "U' R U2 R' y' U R' U' R y ";
             return true;
         }
         else if (upEightRightFront()) // F2L 11
@@ -857,7 +862,9 @@ void CFOP::solveOLL()
             }
             else
             {
-                applyOllSolution(ollData);
+                std::cout << std::endl << "oll data: " << ollData << std::endl;
+                ollData += ollString;
+                applyOllSolution(ollString);
                 break;
             }
         }
@@ -914,287 +921,287 @@ bool CFOP::handleOLL()
 
     if (checkYellowCubie(f1, f2, r2, b7, u2, u3, u4, u9)) // OLL 29
     {
-        ollData += "R U R' U' R U' R' F' U' F R U R' ";
+        ollString += "R U R' U' R U' R' F' U' F R U R' ";
         return true;
     }
     else if (checkYellowCubie(f2, r2, r3, l1, u2, u4, u7, u9)) // OLL 30
     {
-        ollData += "F R' F R2 U' R' U' R U R' F2 ";
+        ollString += "F R' F R2 U' R' U' R U R' F2 ";
         return true;
     }
     else if (checkYellowCubie(f2, r2, b7, b9, u2, u4, u7, u9)) // OLL 41
     {
-        ollData += "R U R' U R U2 R' F R U R' U' F' ";
+        ollString += "R U R' U R U2 R' F R U R' U' F' ";
         return true;
     }
     else if (checkYellowCubie(f1, f3, r2, b8, u1, u3, u4, u8)) // OLl 42
     {
-        ollData += "R' U' R U' R' U2 R F R U R' U' F' ";
+        ollString += "R' U' R U' R' U2 R F R U R' U' F' ";
         return true;
     }
     else if (checkYellowCubie(f2, r1, b7, b8, u3, u4, u6, u7)) // OLL 39
     {
-        ollData += "L F' L' U' L U F U' L' ";
+        ollString += "L F' L' U' L U F U' L' ";
         return true;
     }
     else if (checkYellowCubie(f2, l3, b8, b9, u1, u4, u6, u9)) // OLL 40
     {
-        ollData += "R' F R U R' U' F' U R ";
+        ollString += "R' F R U R' U' F' U R ";
         return true;
     }
     else if (checkYellowCubie(f2, r3, l1, b8, u4, u6, u7, u9)) // OLL 34
     {
-        ollData += "R U R2 U' R' F R U R U' F' ";
+        ollString += "R U R2 U' R' F R U R U' F' ";
         return true;
     }
     else if (checkYellowCubie(r1, r2, r3, l2, u1, u2, u7, u8)) // OLL 46
     {
-        ollData += "R' U' R' F R F' U R ";
+        ollString += "R' U' R' F R F' U R ";
         return true;
     }
     else if (checkYellowCubie(f2, r2, u1, u2, u3, u4, u7, u9)) // OLL 28
     {
-        ollData += "r U R' U' r' R U R U' R' ";
+        ollString += "r U R' U' r' R U R U' R' ";
         return true;
     }
     else if (checkYellowCubie(f2, b8, u1, u3, u4, u6, u7, u9)) // OLL 57
     {
-        ollData += "R U R' U' M' U R U' r' ";
+        ollString += "R U R' U' M' U R U' r' ";
         return true;
     }
     else if (checkYellowCubie(f1, f3, b7, b9, u2, u4, u6, u8)) // OLL 21
     {
-        ollData += "R U2 R' U' R U R' U' R U' R' ";
+        ollString += "R U2 R' U' R U R' U' R U' R' ";
         return true;
     }
     else if (checkYellowCubie(f3, l1, l3, b9, u2, u4, u6, u8)) // OLL 22
     {
-        ollData += "R U2 R2 U' R2 U' R2 U2 R ";
+        ollString += "R U2 R2 U' R2 U' R2 U2 R ";
         return true;
     }
     else if (checkYellowCubie(b7, b9, u2, u4, u6, u7, u8, u9)) // OLL 23
     {
-        ollData += "R2 D' R U2 R' D R U2 R ";
+        ollString += "R2 D' R U2 R' D R U2 R ";
         return true;
     }
     else if (checkYellowCubie(f1, b7, u2, u3, u4, u6, u8, u9)) // OLL 24
     {
-        ollData += "r U R' U' r' F R F' ";
+        ollString += "r U R' U' r' F R F' ";
         return true;
     }
     else if (checkYellowCubie(f3, l1, u2, u3, u4, u6, u7, u8)) // OLL 25
     {
-        ollData += "F' r U R' U' r' F R ";
+        ollString += "F' r U R' U' r' F R ";
         return true;
     }
     else if (checkYellowCubie(f1, r1, l1, u2, u3, u4, u6, u8)) // OLL 26
     {
-        ollData += "R U2 R' U' R U' R' ";
+        ollString += "R U2 R' U' R U' R' ";
         return true;
     }
     else if (checkYellowCubie(f3, r3, b7, u2, u4, u6, u7, u8)) // OLL 27
     {
-        ollData += "R U R' U R U2 R' ";
+        ollString += "R U R' U R U2 R' ";
         return true;
     }
     else if (checkYellowCubie(f2, r1, r2, r3, l1, l2, l3, b8)) // OLL 1
     {
-        ollData += "R U2 R2 F R F' U2 R' F R F' ";
+        ollString += "R U2 R2 F R F' U2 R' F R F' ";
         return true;
     }
     else if (checkYellowCubie(f2, r1, r2, l2, l3, b7, b8, b9)) // OLL 2
     {
-        ollData += "r U r' U2 r U2 R' U2 R U' r' ";
+        ollString += "r U r' U2 r U2 R' U2 R U' r' ";
         return true;
     }
     else if (checkYellowCubie(f2, f3, r2, r3, l2, b7, b8, u7)) // OLL 3
     {
-        ollData += "r' R2 U R' U r U2 r' U M' ";
+        ollString += "r' R2 U R' U r U2 r' U M' ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, r2, l1, l2, b8, b9, u9)) // OLL 4
     {
-        ollData += "M U' r U2 r' U' R U' R' M' ";
+        ollString += "M U' r U2 r' U' R U' R' M' ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, r2, r3, l2, b8, u1, u9)) // OLL 17
     {
-        ollData += "F R' F' R2 r' U R U' R' U' M' ";
+        ollString += "F R' F' R2 r' U R U' R' U' M' ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, f3, r2, l2, b8, u1, u3)) // OLL 18
     {
-        ollData += "r U R' U R U2 r2 U' R U' R' U2 r ";
+        ollString += "r U R' U R U2 r2 U' R U' R' U2 r ";
         return true;
     }
     else if (checkYellowCubie(f2, r1, r2, l2, l3, b8, u1, u3)) // OLL 19
     {
-        ollData += "r' R U R U R' U' M' R' F R F' ";
+        ollString += "r' R U R U R' U' M' R' F R F' ";
         return true;
     }
     else if (checkYellowCubie(f2, r2, l2, b8, u1, u3, u7, u9)) // OLL 20
     {
-        ollData += "r U R' U' M2 U R U' R' U' M' ";
+        ollString += "r U R' U' M2 U R U' R' U' M' ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, r2, l1, b9, u2, u4, u9)) // OLL 9
     {
-        ollData += "R U R' U' R' F R2 U R' U' F' ";
+        ollString += "R U R' U' R' F R2 U R' U' F' ";
         return true;
     }
     else if (checkYellowCubie(f3, r2, l3, b7, b8, u3, u4, u8)) // OLL 10
     {
-        ollData += "R U R' U R' F R F' R U2 R' ";
+        ollString += "R U R' U R' F R F' R U2 R' ";
         return true;
     }
     else if (checkYellowCubie(f1, r3, l2, b8, u1, u6, u8, u9)) // OLL 35
     {
-        ollData += "R U2 R2 F R F' R U2 R' ";
+        ollString += "R U2 R2 F R F' R U2 R' ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, r2, r3, u1, u2, u4, u9)) // OLL 37
     {
-        ollData += "F R' F' R U R U' R' ";
+        ollString += "F R' F' R U R U' R' ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, r1, r3, b7, b8, u4, u6)) // OLL 51
     {
-        ollData += "F U R U' R' U R U' R' F' ";
+        ollString += "F U R U' R' U R U' R' F' ";
         return true;
     }
     else if (checkYellowCubie(f1, r1, r2, r3, l2, b7, u2, u8)) // OLL 52
     {
-        ollData += "R U R' U R U' B U' B' R' ";
+        ollString += "R U R' U R U' B U' B' R' ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, f3, b7, b8, b9, u4, u6)) // OLL 55
     {
-        ollData += "R' F R U R U' R2 F' R2 U' R' U R U R' ";
+        ollString += "R' F R U R U' R2 F' R2 U' R' U R U R' ";
         return true;
     }
     else if (checkYellowCubie(f2, r1, r3, l1, l3, b8, u4, u6)) // OLL 56
     {
-        ollData += "r' U' r U' R' U R U' R' U R r' U r ";
+        ollString += "r' U' r U' R' U R U' R' U R r' U r ";
         return true;
     }
     else if (checkYellowCubie(f2, f3, r3, b7, b8, u4, u6, u7)) // OLL 13
     {
-        ollData += "F U R U' R2 F' R U R U' R' ";
+        ollString += "F U R U' R2 F' R U R U' R' ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, l1, b8, b9, u4, u6, u9)) // OLL 14
     {
-        ollData += "R' F R U R' F' R F U' F' ";
+        ollString += "R' F R U R' F' R F U' F' ";
         return true;
     }
     else if (checkYellowCubie(f2, f3, l3, r3, b8, u1, u4, u6)) // OLL 15
     {
-        ollData += "l' U' l L' U' L U l' U l ";
+        ollString += "l' U' l L' U' L U l' U l ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, r1, l1, b8, u3, u4, u6)) // OLL 16
     {
-        ollData += "r U r' R U R' U' r U' r' ";
+        ollString += "r U r' R U R' U' r U' r' ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, l2, b7, u2, u3, u6, u9)) // OLL 31
     {
-        ollData += "R' U' F U R U' R' F' R ";
+        ollString += "R' U' F U R U' R' F' R ";
         return true;
     }
     else if (checkYellowCubie(f2, f3, r2, b9, u1, u2, u4, u7)) // OLL 32
     {
-        ollData += "L U F' U' L' U L F L' ";
+        ollString += "L U F' U' L' U L F L' ";
         return true;
     }
     else if (checkYellowCubie(f2, l1, l2, l3, u2, u3, u6, u9)) // OLL 43
     {
-        ollData += "F' U' L' U L F ";
+        ollString += "F' U' L' U L F ";
         return true;
     }
     else if (checkYellowCubie(f2, r1, r2, r3, u1, u2, u4, u7)) // OLL 44
     {
-        ollData += "F U R U' R' F' ";
+        ollString += "F U R U' R' F' ";
         return true;
-        }
+    }
     else if (checkYellowCubie(f1, f2, r1, r3, l2, b7, u2, u6)) // OLL 47
     {
-        ollData += "R' U' R' F R F' R' F R F' U R ";
+        ollString += "R' U' R' F R F' R' F R F' U R ";
         return true;
-        }
+    }
     else if (checkYellowCubie(f2, f3, r2, l1, l3, b9, u2, u4)) // OLL 48
     {
-        ollData += "F R U R' U' R U R' U' F' ";
+        ollString += "F R U R' U' R U R' U' F' ";
         return true;
-        }
+    }
     else if (checkYellowCubie(f2, f3, l1, l2, l3, b9, u2, u6)) // OLL 49
     {
         ollData += "r U' r2 U r2 U r2 U' r ";
         return true;
-        }
+    }
     else if (checkYellowCubie(f3, l1, l2, l3, b8, b9, u6, u8)) // OLL 50
     {
-        ollData += "r' U r2 U' r2 U' r2 U r' ";
+        ollString += "r' U r2 U' r2 U' r2 U r' ";
         return true;
-        }
+    }
     else if (checkYellowCubie(f1, f2, f3, l2, b7, b9, u2, u6)) // OLL 53
     {
-        ollData += "l' U2 L U L' U' L U L' U l ";
+        ollString += "l' U2 L U L' U' L U L' U l ";
         return true;
-        }
+    }
     else if (checkYellowCubie(f1, f2, f3, r2, b7, b9, u2, u4)) // OLL 54
     {
-        ollData += "r U2 R' U' R U R' U' R U' r' ";
+        ollString += "r U2 R' U' R U R' U' R U' r' ";
         return true;
     }
     else if (checkYellowCubie(f2, f3, r2, r3, b7, u2, u4, u7)) // OLL 7
     {
-        ollData += "r U R' U R U2 r' ";
+        ollString += "r U R' U R U2 r' ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, l1, l2, b9, u2, u6, u9)) // OLL 8
     {
-        ollData += "l' U' L U' L' U2 l ";
+        ollString += "l' U' L U' L' U2 l ";
         return true;
     }
     else if (checkYellowCubie(f2, f3, l3, r2, b7, u2, u3, u4)) // OLL 11
     {
-        ollData += "r U R' U R' F R F' R U2 r' ";
+        ollString += "r U R' U R' F R F' R U2 r' ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, r1, l2, b9, u1, u2, u6)) // OLL 12
     {
-        ollData += "M' R' U' R U' R' U2 R U' R r' ";
+        ollString += "M' R' U' R U' R' U2 R U' R r' ";
         return true;
     }
     else if (checkYellowCubie(f2, f3, r2, r3, l3, u1, u2, u4)) // OLL 5
     {
-        ollData += "l' U2 L U L' U l ";
+        ollString += "l' U2 L U L' U l ";
         return true;
     }
     else if (checkYellowCubie(f1, f2, r1, l1, l2, u2, u3, u6)) // OLL 6
     {
-        ollData += "r U2 R' U' R U' r' ";
+        ollString += "r U2 R' U' R U' r' ";
         return true;
     } 
     else if (checkYellowCubie(f1, f2, b7, b8, u3, u4, u6, u9)) // OLL 33
     {
-        ollData += "R U R' U' R' F R F' ";
+        ollString += "R U R' U' R' F R F' ";
         return true;
     }
     else if (checkYellowCubie(f2, l1, l3, b8, u3, u4, u6, u9)) // OLL 45
     {
-        ollData += "F R U R' U' F' ";
+        ollString += "F R U R' U' F' ";
         return true;
     }
     else if (checkYellowCubie(f2, l2, l3, b9, u1, u2, u6, u9)) // OLL 36
     {
-        ollData += "L' U' L U' L' U L U L F' L' F ";
+        ollString += "L' U' L U' L' U L U L F' L' F ";
         return true;
     }
     else if (checkYellowCubie(f2, r1, r2, b7, u2, u3, u4, u7)) // OLL 38
     {
-        ollData += "R U R' U R U' R' U' R' F R F' ";
+        ollString += "R U R' U R U' R' U' R' F R F' ";
         return true;
     }
 
@@ -1203,14 +1210,14 @@ bool CFOP::handleOLL()
 
 bool CFOP::isUpFaceFinish()
 {
-    return this->getCube().getCubieOne() == Yellow
-        && this->getCube().getCubieTwo() == Yellow
-        && this->getCube().getCubieThree() == Yellow
-        && this->getCube().getCubieFour() == Yellow
-        && this->getCube().getCubieSix() == Yellow
-        && this->getCube().getCubieSeven() == Yellow
-        && this->getCube().getCubieEight() == Yellow
-        && this->getCube().getCubieNine() == Yellow;
+    return this->getCube().getUpFace().getCubieOne() == Yellow
+        && this->getCube().getUpFace().getCubieTwo() == Yellow
+        && this->getCube().getUpFace().getCubieThree() == Yellow
+        && this->getCube().getUpFace().getCubieFour() == Yellow
+        && this->getCube().getUpFace().getCubieSix() == Yellow
+        && this->getCube().getUpFace().getCubieSeven() == Yellow
+        && this->getCube().getUpFace().getCubieEight() == Yellow
+        && this->getCube().getUpFace().getCubieNine() == Yellow;
 }
 
 void CFOP::applyOllSolution(const std::string& ollSolution)
@@ -1225,4 +1232,83 @@ void CFOP::applyOllSolution(const std::string& ollSolution)
                 turn(val.first);
         }
     }
+}
+
+/*
+    PLL
+*/
+
+void CFOP::solvePll()
+{
+    if (!isLastLayerFinish())
+    {
+        for (int i = 0; i < 4; ++i)
+        {
+            if (!handlePll())
+            {
+                turn(41);
+                pllData += "y' ";
+            }
+            else
+            {
+                
+            }
+        }
+    }
+}
+
+std::string CFOP::getPllData() const
+{
+    return pllData;
+}
+
+bool CFOP::isLastLayerFinish()
+{
+    // Front layer
+    Color f1 = this->getCube().getFrontFace().getCubieOne();
+    Color f2 = this->getCube().getFrontFace().getCubieTwo();
+    Color f3 = this->getCube().getFrontFace().getCubieThree();
+    Color f5 = this->getCube().getFrontFace().getCubieFive();
+
+    // Right face
+    Color r1 = this->getCube().getRightFace().getCubieOne();
+    Color r2 = this->getCube().getRightFace().getCubieTwo();
+    Color r3 = this->getCube().getRightFace().getCubieThree();
+    Color r5 = this->getCube().getRightFace().getCubieFive();
+
+    // Left face
+    Color l1 = this->getCube().getLeftFace().getCubieOne();
+    Color l2 = this->getCube().getLeftFace().getCubieTwo();
+    Color l3 = this->getCube().getLeftFace().getCubieThree();
+    Color l5 = this->getCube().getLeftFace().getCubieFive();
+
+    // Back face
+    Color b7 = this->getCube().getBackFace().getCubieSeven();
+    Color b8 = this->getCube().getBackFace().getCubieEight();
+    Color b9 = this->getCube().getBackFace().getCubieNine();
+    Color b5 = this->getCube().getBackFace().getCubieFive();
+
+    return (f1 == f5 && f2 == f5 && f3 == f5)
+        && (r1 == r5 && r2 == r5 && r3 == r5)
+        && (l1 == l5 && l2 == l5 && l3 == l5)
+        && (b7 == b5 && b8 == b5 && b9 == b5);
+}
+
+void CFOP::applyPllSolution(const std::string& pllSolution)
+{
+    std::stringstream ss(pllSolution);
+    std::string move;
+    while (ss >> move)
+    {
+        for (const auto& val : mpMove)
+        {
+            if (val.second == move)
+                turn(val.first);
+        }
+    }
+}
+
+bool CFOP::handlePll()
+{
+    return false;
 }
