@@ -4,6 +4,8 @@
 
 This project solves the Rubik's Cube using the CFOP method with real-time color detection implemented in C++ and OpenCV. The cube's state is captured using a webcam, and the CFOP algorithm solves it step by step. The project also provides a visualization of the cube's current state and the solving process.
 
+[Video Demo](https://drive.google.com/file/d/1xeGhuVz5U8G8hfx-jE69WVCXx_C6su6A/view?usp=drive_link)
+
 ## Features
 
 - **Real-time Color Detection**: Detects the colors of the cube's faces using a webcam.
