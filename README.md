@@ -81,4 +81,4 @@ To get started, ensure you have the necessary hardware and software. This projec
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE.txt) file for more details.
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
