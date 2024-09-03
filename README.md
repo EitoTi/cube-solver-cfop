@@ -71,6 +71,9 @@ To get started, ensure you have the necessary hardware and software. This projec
 ### **Usage**
 
 1. **Position the Cube**: Place the Rubik's Cube in front of the camera, ensuring all sides are visible.
+  > [!NOTE]
+  > Up Face must be Yellow
+  > Down Face must be White
 2. **Real-time Color Detection**: The program captures the colors of the cube in real-time. You can interact with the program using the following key commands:
    - Press ```s```: Save the current state of the cube during real-time detection. This stores the detected colors.
    - Press ```r``` Rescan the cube's colors if the detection is not accurate or you want to re-capture the colors.
@@ -81,4 +84,4 @@ To get started, ensure you have the necessary hardware and software. This projec
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE.txt) file for more details.
