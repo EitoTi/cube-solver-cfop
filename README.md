@@ -73,6 +73,7 @@ To get started, ensure you have the necessary hardware and software. This projec
 1. **Position the Cube**: Place the Rubik's Cube in front of the camera, ensuring all sides are visible.
   > [!NOTE]
   > Up Face must be Yellow
+  > 
   > Down Face must be White
 2. **Real-time Color Detection**: The program captures the colors of the cube in real-time. You can interact with the program using the following key commands:
    - Press ```s```: Save the current state of the cube during real-time detection. This stores the detected colors.
