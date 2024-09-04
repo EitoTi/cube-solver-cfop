@@ -4,6 +4,8 @@
 
 This project solves the Rubik's Cube using the CFOP method with real-time color detection implemented in C++ and OpenCV. The cube's state is captured using a webcam, and the CFOP algorithm solves it step by step. The project also provides a visualization of the cube's current state and the solving process.
 
+[Video Demo](https://drive.google.com/file/d/1qyDOXo7WZp_sKw0KSJcF4iTwBbnEPBQ8/view?usp=drive_link)
+
 ## Features
 
 - **Real-time Color Detection**: Detects the colors of the cube's faces using a webcam.
@@ -43,9 +45,12 @@ To get started, ensure you have the necessary hardware and software. This projec
       ``` bash
       D:\opencv\build\x64\vc16\bin
       ```
-    - Restart computer
-        ![](./Picture/2.png)
 
+      ![](./Picture/2.png)
+
+      
+    - Restart computer
+        
 3. **Set up Visual Studio 2022**
   - ##### **Step 1:**
     - Launch Visual Studio 2022
@@ -57,9 +62,11 @@ To get started, ensure you have the necessary hardware and software. This projec
     VC++ Directories
       1. Add Build Directories: ```D:\opencv\build\include```
       2. Add Library Directories: ```D:\opencv\build\x64\vc16\lib```
-    Linker Input 
+         
+    Linker Input
+    
       3. Add Linker input: ```opencv_world4100d.lib```
-        d for debug without d for release 
+      d for debug without d for release 
 
       ![](./Picture/3.png)
 
